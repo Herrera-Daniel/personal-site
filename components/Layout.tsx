@@ -1,11 +1,11 @@
-import Head from "next/head";
 import NavLink from "./NavLink";
+import Head from "next/head";
 
 export default function Layout({children}: any) {
 
     return (
 
-        <div className='flex flex-col'>
+        <div className='h-screen flex flex-col overflow-scroll'>
             <Head>
                 <title>Daniel Herrera</title>
                 <meta
@@ -13,7 +13,7 @@ export default function Layout({children}: any) {
                     content='Personal Site for Daniel Herrera'
                 />
             </Head>
-            <nav className='flex flex-row items-center relative bg-gray-800 px-4 h-14 w-full'>
+            <nav className='flex flex-row items-center relative bg-gray-800 p-4 h-14 w-full'>
                 <a className='justify-start'>Daniel Herrera</a>
 
                 <ul className='flex flex-row gap-2 ml-auto'>
@@ -24,9 +24,9 @@ export default function Layout({children}: any) {
                 </ul>
             </nav>
 
-            <main className='scroll-auto'>{children}</main>
+            <main className='flex-grow p-8'>{children}</main>
 
-            <footer className='bg-gray-800 h-12 w-full'>footer</footer>
+            <footer className='flex items-center bottom-0 bg-gray-800 h-12 p-4 w-full'>footer</footer>
         </div>
     );
 };
