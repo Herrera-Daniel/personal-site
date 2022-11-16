@@ -26,7 +26,19 @@ export default function Layout({children}: any) {
 
             <main className='flex-grow p-8'>{children}</main>
 
-            <footer className='flex items-center bottom-0 bg-gray-800 h-12 p-4 w-full'>footer</footer>
+            <footer className='grid grid-cols-2 justify-center items-center gap-4 bottom-0 bg-gray-800 h-14 p-4 w-full'>
+                <div className='flex gap-2'>
+                    <a>
+                        github link
+                    </a>
+                    <a>
+                        linkedin link
+                    </a>
+                </div>
+                <div className='flex w-full justify-end'>
+                    Built with <a href='https://nextjs.org/'>NextJs</a>
+                </div>
+            </footer>
         </div>
     );
 };
