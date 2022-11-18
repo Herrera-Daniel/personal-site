@@ -14,7 +14,8 @@ export default function Editor(props: EditorProps) {
             </ReactMarkdown>
             <textarea
                 onChange={e => props.setMarkDown(e.target.value)}
-                className='h-1/2 overflow-scroll'
+                placeholder='Write your blog here!'
+                className='h-1/2 overflow-scroll rounded p-2 outline-none'
             >
 
         </textarea>
