@@ -19,20 +19,18 @@ export default function Add() {
 
     return (
         <div className='flex flex-col h-full'>
-            <div className='flex flex-row gap-2'>
-                <div className='flex flex-col gap-2 w-1/2'>
-                    <input
-                        className='flex items-center h-12 w-full rounded p-2 outline-none'
-                        onChange={e => setTitle(e.target.value)}
-                        placeholder='Title'
-                    />
-                    <textarea
-                        className='p-2 rounded outline-none'
-                        onChange={e => setDesc(e.target.value)}
-                        placeholder='Desc'
-                    />
-                </div>
-                <Button text='Save' onClick={() => onSave()}/>
+            <div className='flex flex-row gap-2 w-full'>
+                <input
+                    className='flex items-center w-1/3 rounded p-2 outline-none'
+                    onChange={e => setTitle(e.target.value)}
+                    placeholder='Title'
+                />
+                <input
+                    className='p-2 rounded outline-none w-2/3'
+                    onChange={e => setDesc(e.target.value)}
+                    placeholder='Desc'
+                />
+            <Button text='Save' onClick={() => onSave()}/>
             </div>
             <Editor markDown={markDown} setMarkDown={setMarkDown}/>
         </div>

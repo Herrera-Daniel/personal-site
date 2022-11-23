@@ -24,7 +24,7 @@ export default function Layout({children}: any) {
                 </ul>
             </nav>
 
-            <main className='flex-grow p-8'>{children}</main>
+            <main className='flex-grow p-6'>{children}</main>
 
             <footer className='grid grid-cols-2 justify-center items-center gap-4 bottom-0 bg-gray-800 h-14 p-4 w-full'>
                 <div className='flex gap-2'>

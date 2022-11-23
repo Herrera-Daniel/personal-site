@@ -49,6 +49,28 @@ h6 {
     font-weight: lighter;
 }
 
+blockquote {
+    color: lightslategray;
+    margin: 0;
+    padding-left: 3em;
+    border-left: 0.2em slategray solid;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: darkslategray;}
+tr:hover {background-color: lightslategray;}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: gray;
+}
+
 @media (prefers-color-scheme: dark) {
     html {
         color-scheme: dark;
