@@ -3,10 +3,17 @@ import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
 import remarkGfm from "remark-gfm";
 import {darkTheme} from "../codehighlightertheme/theme";
 
+export type BlogType = {
+    title: string;
+    desc: string;
+    content: string;
+    href: string;
+};
+
 type EditorProps = {
     markDown: string;
     setMarkDown: (markDown: string) => void;
-}
+};
 
 export default function Editor(props: EditorProps) {
 
