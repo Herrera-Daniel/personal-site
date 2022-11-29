@@ -1,8 +1,8 @@
-import {BlogType} from './Markdown';
-import Link from "next/link";
+import Link from 'next/link';
+import { Blog } from '../types/Blog';
 
 type BlogTitleProps = {
-    blog: BlogType;
+    blog: Blog;
 };
 
 export default function BlogTitleCard(props: BlogTitleProps) {

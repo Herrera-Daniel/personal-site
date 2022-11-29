@@ -3,13 +3,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import remarkGfm from 'remark-gfm';
 import { darkTheme } from '../codehighlightertheme/theme';
 
-export type BlogType = {
-    title: string;
-    desc: string;
-    content: string;
-    dir: string;
-    name: string;
-};
 
 export default function Markdown({ children }: any) {
 

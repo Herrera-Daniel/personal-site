@@ -1,13 +1,12 @@
 import {useRouter} from 'next/navigation';
-import fs from 'fs';
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 import { useState } from 'react';
 import BlogTitleCard from '../components/BlogTitleCard';
-import { getBlogs } from '../fileutils/fileUtils';
+import { getBlogCardDetails } from '../fileutils/fileUtils';
 
-export async function getStaticProps(context: any) {
+export async function getStaticProps() {
     return {
-        props: {blogs: getBlogs()},
+        props: {blogs: getBlogCardDetails()},
     };
 }
 

@@ -2,25 +2,23 @@ import fs from 'fs';
 
 export function getBlogDirs(dir?: string) {
     const dirPath = dir ?
-        process.cwd() + '/blogs/' + dir :
-        process.cwd() + '/blogs';
+        process.cwd() + '/staticdata/blogs/' + dir :
+        process.cwd() + '/staticdata/blogs';
     return fs.readdirSync(dirPath);
 }
 
-export function getBlogs() {
+export function getBlogCardDetails() {
     const rootDirs = getBlogDirs();
-    console.log(rootDirs);
     let data = {};
 
     rootDirs.forEach(d => {
         const blogDirs = getBlogDirs(d);
-        console.log(blogDirs);
 
         data = {
             ...data,
             [d]: blogDirs.map(b => {
                 const dirPath = process.cwd() +
-                    '/blogs/' +
+                    '/staticdata/blogs/' +
                     d +
                     '/' +
                     b +
@@ -44,5 +42,15 @@ export function getBlogs() {
 
 export function getBlog(dir: string, name: string) {
 
-    return fs.readFileSync(process.cwd() + '/blogs/' + dir + '/' + name + '/' + name + '.md', 'utf8');
+    return fs.readFileSync(process.cwd() + '/staticdata/blogs/' + dir + '/' + name + '/' + name + '.md', 'utf8');
+}
+
+export function getAboutContent() {
+
+    return fs.readFileSync(process.cwd() + '/staticdata/about.md', 'utf8');
+}
+
+export function getWelcomeContent() {
+
+    return fs.readFileSync(process.cwd() + '/staticdata/welcome.md', 'utf8');
 }

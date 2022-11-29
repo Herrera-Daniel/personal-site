@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { getBlogs, getBlogDirs, getBlog } from '../../../../fileutils/fileUtils';
+import { getBlogCardDetails, getBlogDirs, getBlog } from '../../../../fileutils/fileUtils';
 import { InferGetStaticPropsType } from 'next';
 import Markdown from '../../../../components/Markdown';
 
