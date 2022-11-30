@@ -4,14 +4,16 @@ import { InferGetStaticPropsType } from 'next';
 
 export async function getStaticProps() {
     return {
-       props: {content: getWelcomeContent()}
-    }
+        props: { content: getWelcomeContent() },
+    };
 }
 
 export default function Home(props: InferGetStaticPropsType<typeof getStaticProps>) {
     return (
-        <Markdown>
-            {props.content}
-        </Markdown>
-    )
+        <div className='flex w-full justify-center'>
+            <Markdown>
+                {props.content}
+            </Markdown>
+        </div>
+    );
 }

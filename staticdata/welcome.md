@@ -1,10 +1,8 @@
 ## Welcome
-#### My name is Daniel Herrera.
+#### My name is Daniel Herrera
 
-I am a software engineer.
+I'm a software engineer with three years of professional experience, most of that time was spent writing Java and TypeScript, but I love
+exploring new languages and paradigms.
 
-I have 3 years of professional full stack development experience
-            
-I love making simple UIs that emphasize function.
-I'm not sure what I want this home page to look like.
-Think about a site that makes you seem human.
+Feel free to look around at my blogs and perhaps checkout the origin 
+story.

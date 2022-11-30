@@ -1,7 +1,9 @@
-import NavLink from "./NavLink";
-import Head from "next/head";
+import NavLink from './NavLink';
+import Head from 'next/head';
+import Link from 'next/link';
+import Menu from './Menu';
 
-export default function Layout({children}: any) {
+export default function Layout({ children }: any) {
 
     return (
 
@@ -14,14 +16,19 @@ export default function Layout({children}: any) {
                 />
             </Head>
             <nav className='flex flex-row items-center relative bg-gray-800 p-4 h-14 w-full'>
-                <a className='justify-start'>Daniel Herrera</a>
+                <Link href='/' className='justify-start'>Daniel Herrera</Link>
 
-                <ul className='flex flex-row gap-2 ml-auto'>
-                    <NavLink href='/' text='Home'/>
-                    <NavLink href='/blog' text='Blog'/>
-                    <NavLink href='/about' text='About'/>
-                    <NavLink href='/contact' text='Contact'/>
-                </ul>
+                <div id='desktopNav'>
+                    <ul className='flex flex-row gap-2 ml-auto'>
+                        <NavLink href='/' text='Home'/>
+                        <NavLink href='/blog' text='Blog'/>
+                        <NavLink href='/about' text='About'/>
+                        <NavLink href='/contact' text='Contact'/>
+                    </ul>
+                </div>
+                <div id='mobileNav'>
+                    <Menu/>
+                </div>
             </nav>
 
             <main className='flex-grow p-6'>{children}</main>
@@ -29,10 +36,10 @@ export default function Layout({children}: any) {
             <footer className='grid grid-cols-2 justify-center items-center gap-4 bottom-0 bg-gray-800 h-14 p-4 w-full'>
                 <div className='flex gap-2'>
                     <a>
-                        github link
+                        github
                     </a>
                     <a>
-                        linkedin link
+                        linkedin
                     </a>
                 </div>
                 <div className='flex w-full justify-end'>

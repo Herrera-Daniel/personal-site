@@ -9,6 +9,16 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+[data-clicked='false'] > #menuContainer {
+    visibility: hidden;
+    display: none;
+}
+
+[data-clicked='true'] > #menuContainer {
+    visibility: visible;
+    display: block;
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -18,6 +28,11 @@ a {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+p {
+    margin-bottom: 24px;
+    text-align: justify;
 }
 
 h1 {
@@ -37,6 +52,8 @@ h3 {
 
 h4 {
     font-size: 2rem;
+    margin-top: 24px;
+    margin-bottom: 12px;
 }
 
 h5 {
@@ -91,5 +108,45 @@ hr {
 
     body {
         color: white;
+    }
+}
+
+#markdownContainer {
+    width: 95%;
+}
+
+@media screen and (min-width: 750px) {
+
+    #markdownContainer {
+        width: 55%;
+    }
+}
+
+#desktopNav {
+    margin-left: auto;
+}
+#mobileNav {
+    margin-left: auto;
+}
+
+@media screen and (min-width: 410px){
+    #desktopNav {
+        display: block;
+        visibility: visible;
+    }
+    #mobileNav {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+@media screen and (max-width: 410px){
+    #desktopNav {
+        display: none;
+        visibility: hidden;
+    }
+    #mobileNav {
+        display: block;
+        visibility: visible;
     }
 }
