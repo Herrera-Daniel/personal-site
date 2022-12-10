@@ -20,7 +20,6 @@ export default function Menu() {
                     data-clicked='false'
                     className='dropdown relative'
                     onClick={e => onClick(e.currentTarget)}
-                    onBlur={e => onBlur(e.currentTarget)}
                 >
                     <button
                         className='
@@ -57,7 +56,7 @@ export default function Menu() {
           absolute
           bg-gray-700
           text-base
-          z-50
+          z-40
           float-left
           py-2
           list-none

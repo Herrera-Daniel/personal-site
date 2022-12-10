@@ -1,8 +1,7 @@
-import {useRouter} from 'next/navigation';
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
-import { useState } from 'react';
+import {useState} from 'react';
 import BlogTitleCard from '../components/BlogTitleCard';
-import { getBlogCardDetails } from '../fileutils/fileUtils';
+import {getBlogCardDetails} from '../fileutils/fileUtils';
 
 export async function getStaticProps() {
     return {
@@ -12,7 +11,6 @@ export async function getStaticProps() {
 
 export default function Blogs(props: any) {
     const [selectedTab, setSelectedTab] = useState('fishing');
-    const router = useRouter();
 
     console.log(props);
 
@@ -25,19 +23,16 @@ export default function Blogs(props: any) {
     }
 
     return (
-        <div className='flex flex-col h-full'>
-            <div className='m-4'>
-                Welcome to the blog.
+        <div className='flex w-full justify-center'>
+            <div id='contentContainer'>
+                <h2>Welcome to the blog</h2>
                 <br/>
-                <div className='pl-4'>
-                    Here you can find updates on my projects, some tech
-                    discussions,
+                <h5 className='mb-8'>
+                    Here you can find updates on my projects, some tech discussions,
                     random posits on life, and definitely some posts on fishing.
-                </div>
-            </div>
-            <div className='w-full flex justify-center h-full'>
-                <Tabs className='w-2/3'>
-                    <TabList className='flex flex-row gap-4 px-2 mb-6 border-b-2 border-slate-700'>
+                </h5>
+                <Tabs className='w-full'>
+                    <TabList className='flex flex-row overflow-scroll gap-4 px-2 mb-6 border-b-2 border-slate-700'>
                         {Object.keys(props.blogs)
                             .map(b => (
                                 <Tab

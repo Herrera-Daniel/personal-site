@@ -28,11 +28,11 @@ a {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-size: 14pt;
 }
 
 p {
     margin-bottom: 24px;
-    text-align: justify;
 }
 
 h1 {
@@ -43,17 +43,19 @@ h1 {
 h2 {
     font-size: 2.5rem;
     font-weight: bold;
+    margin-bottom: 12px;
 }
 
 h3 {
     font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 4px;
 }
 
 h4 {
     font-size: 2rem;
-    margin-top: 24px;
-    margin-bottom: 12px;
+    margin-bottom: 2px;
+    margin-top: 48px;
 }
 
 h5 {
@@ -101,6 +103,16 @@ hr {
     border-color: #52525b;
 }
 
+nav.toc {
+    right: 48px;
+    position: absolute;
+}
+
+nav.toc > a {
+    margin: 4px;
+}
+
+
 @media (prefers-color-scheme: dark) {
     html {
         color-scheme: dark;
@@ -111,13 +123,12 @@ hr {
     }
 }
 
-#markdownContainer {
+#contentContainer {
     width: 95%;
 }
 
 @media screen and (min-width: 750px) {
-
-    #markdownContainer {
+    #contentContainer {
         width: 55%;
     }
 }
@@ -129,7 +140,7 @@ hr {
     margin-left: auto;
 }
 
-@media screen and (min-width: 410px){
+@media screen and (min-width: 500px){
     #desktopNav {
         display: block;
         visibility: visible;
@@ -140,7 +151,7 @@ hr {
     }
 }
 
-@media screen and (max-width: 410px){
+@media screen and (max-width: 500px){
     #desktopNav {
         display: none;
         visibility: hidden;
@@ -148,5 +159,19 @@ hr {
     #mobileNav {
         display: block;
         visibility: visible;
+    }
+}
+
+@media screen and (min-width: 1295px){
+    nav.toc {
+        visibility: visible;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 1295px){
+    nav.toc {
+        visibility: hidden;
+        display: none;
     }
 }

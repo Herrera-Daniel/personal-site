@@ -8,41 +8,53 @@ export function getBlogDirs(dir?: string) {
 }
 
 export function getBlogCardDetails() {
-    const rootDirs = getBlogDirs();
     let data = {};
 
-    rootDirs.forEach(d => {
-        const blogDirs = getBlogDirs(d);
+    try {
+        const rootDirs = getBlogDirs();
+        rootDirs.forEach(d => {
+            const blogDirs = getBlogDirs(d);
 
-        data = {
-            ...data,
-            [d]: blogDirs.map(b => {
-                const dirPath = process.cwd() +
-                    '/staticdata/blogs/' +
-                    d +
-                    '/' +
-                    b +
-                    '/' +
-                    b;
+            data = {
+                ...data,
+                [d]: blogDirs.map(b => {
+                    const dirPath = process.cwd() +
+                        '/staticdata/blogs/' +
+                        d +
+                        '/' +
+                        b +
+                        '/' +
+                        b;
 
-                const blogDetails = JSON.parse(fs.readFileSync(dirPath +
-                    '.json', 'utf8'));
-                return {
-                    title: blogDetails.title,
-                    desc: blogDetails.desc,
-                    content: fs.readFileSync(dirPath + '.md', 'utf8'),
-                    dir: d,
-                    name: b,
-                };
-            }),
-        };
-    });
-    return data;
+                    const blogDetails = JSON.parse(fs.readFileSync(dirPath +
+                        '.json', 'utf8'));
+                    return {
+                        title: blogDetails.title,
+                        desc: blogDetails.desc,
+                        content: fs.readFileSync(dirPath + '.md', 'utf8'),
+                        dir: d,
+                        name: b,
+                    };
+                }),
+            };
+        });
+        return data;
+    } catch (e) {
+        return {};
+    }
+
 }
 
 export function getBlog(dir: string, name: string) {
 
-    return fs.readFileSync(process.cwd() + '/staticdata/blogs/' + dir + '/' + name + '/' + name + '.md', 'utf8');
+    return fs.readFileSync(process.cwd() +
+        '/staticdata/blogs/' +
+        dir +
+        '/' +
+        name +
+        '/' +
+        name +
+        '.md', 'utf8');
 }
 
 export function getAboutContent() {
