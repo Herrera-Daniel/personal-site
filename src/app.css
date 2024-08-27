@@ -41,8 +41,16 @@ p {
 }
 
 a {
-	color: var(--color-theme-1);
 	text-decoration: none;
+	color: white;
+}
+
+a:visited {
+	color: white;
+}
+
+a:active {
+	color: var(--color-bg-0);
 }
 
 a:hover {
