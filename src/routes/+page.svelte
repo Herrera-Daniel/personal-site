@@ -12,12 +12,12 @@
 		professional experience building enterprise level applications. I graduated in 2019 with degrees
 		in Physics with an emphasis in Astronomy, and Software Engineering.
 	</div>
-</section>
-<section>
+
 	Whatever your software needs, I can help. Make this part look good, lol, I don't know what that
 	means right now.
 	<ul>
-		<li>Website & Application Consultation/Design/Maintenance</li>
+		<li>Website Design & Maintenance</li>
+		<li>Application Consultation, Design, Implementation, Maintenance</li>
 	</ul>
 
 	<br />
@@ -30,10 +30,8 @@
 		<li>Physics (All levels)</li>
 		<li>Chemistry (Fundamentals)</li>
 	</ul>
-</section>
-<section>
-	If any of these services interest you, please feel free to contact me at
-	daniel.herrera33@proton.me. Or use the <a href="/scheduler">scheduler</a> to request a meeting time.
+	If any of these services interest you, please feel free to contact me at daniel.herrera33@proton.me.
+	Or use the<a href="/scheduler">scheduler</a> to request a meeting time.
 </section>
 
 <style>
