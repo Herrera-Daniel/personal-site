@@ -1,4 +1,5 @@
 <script>
+	import me from '$lib/images/small_me.webp';
 </script>
 
 <svelte:head>
@@ -8,13 +9,22 @@
 
 <section>
 	<div class="welcome">
-		Hello and welcome, my name is Daniel Herrera. I am a Software Engineer with 5 years of
-		professional experience building enterprise level applications. I graduated in 2019 with degrees
-		in Physics with an emphasis in Astronomy, and Software Engineering.
+		<div class="welcomeText">
+			<h1>Hello and welcome, my name is Daniel Herrera.</h1>
+		</div>
+		<img class="welcomeImg" src={me} alt="me" />
+	</div>
+	<div class="description">
+		<h2>
+			I am a Software Engineer with 5 years of professional experience building enterprise level
+			applications. I graduated in 2019 with degrees in Physics with an emphasis in Astronomy, and
+			Software Engineering.
+		</h2>
+
+		Whatever your software needs, I can help. Make this part look good, lol, I don't know what that
+		means right now.
 	</div>
 
-	Whatever your software needs, I can help. Make this part look good, lol, I don't know what that
-	means right now.
 	<ul>
 		<li>Website Design & Maintenance</li>
 		<li>Application Consultation, Design, Implementation, Maintenance</li>
@@ -42,6 +52,31 @@
 		align-items: center;
 		flex: 0.6;
 	}
+
+	.description {
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		margin-top: 4em;
+		width: 48em;
+	}
+
 	.welcome {
+		display: inline-flex;
+		gap: 8em;
+	}
+
+	.welcomeText {
+		display: flex;
+		justify-content: center;
+		text-align: center;
+		align-items: center;
+		width: 36em;
+	}
+
+	.welcomeImg {
+		width: 12em;
+		height: 12em;
+		border-radius: 50px;
 	}
 </style>
