@@ -3,6 +3,10 @@
 	import Header from './Header.svelte';
 </script>
 
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
 <div class="app">
 	<Header />
 	<main>
@@ -10,7 +14,7 @@
 	</main>
 </div>
 
-<style>
+<style lang="postcss">
 	.app {
 		display: flex;
 		flex-direction: column;
