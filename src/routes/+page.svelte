@@ -7,7 +7,6 @@
 	<meta name="Daniel Herrera" content="Daniel Herrera's personal site" />
 </svelte:head>
 
-<!-- #TODO -->
 <section>
 	<div class="welcomeContainer">
 		<h1 class="welcome">Welcome</h1>
@@ -25,18 +24,21 @@
 	</div>
 
 	<div class="services">
-		<h4>
-			I offer a variety of servies, from tutoring and lessons to website development. If anything
+		<h3>
+			I offer a variety of services, from tutoring and lessons to website development. If anything
 			interests you please contact be at daniel.herrera@proton.me or use the
-			<a href="/scheduler">scheduler</a> to request a meeting.
-		</h4>
-		<ul>
-			<li>Website Design & Maintenance</li>
-			<li>Application Consultation, Design, Implementation, Maintenance</li>
-		</ul>
+			<a href="/schedule">schedule</a> to request a meeting.
+		</h3>
+
+		<div class="serviceCard">
+			<ul>
+				<li>Website Design & Maintenance</li>
+				<li>Application Consultation, Design, Implementation, Maintenance</li>
+			</ul>
+		</div>
 
 		<br />
-		I also offer tutoring services and lessons for the following subjects:
+		<h3>I also offer tutoring services and lessons for the following subjects:</h3>
 
 		<ul>
 			<li>Programming Lessons</li>
@@ -59,8 +61,14 @@
 	.description {
 		display: flex;
 		flex-direction: column;
-		margin-top: 4em;
 		width: 48em;
+	}
+
+	.serviceCard {
+		background-color: gray;
+		height: 10em;
+		width: 12em;
+		border-radius: 20px;
 	}
 
 	.welcomeContainer {
