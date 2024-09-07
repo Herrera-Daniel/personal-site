@@ -30,7 +30,7 @@
 		<h2 class="text-xl sm:text-2xl mt-8 mb-8">
 			I offer a variety of services, from tutoring and lessons, to website and application
 			development. If anything interests you please contact be at daniel.herrera@proton.me or use
-			the <a class="underline" href="/schedule">schedule</a> to request a meeting.
+			the <a class="underline" href="/schedule">schedule</a> to request a phone call or meeting.
 		</h2>
 
 		<div class="text-lg sm:text-xl bg-gray-800 rounded-2xl p-6 w-full">

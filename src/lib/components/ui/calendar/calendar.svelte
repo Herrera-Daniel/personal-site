@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { cn } from '$lib/utils.js';
+	import type { DateValue } from '@internationalized/date';
 	import { Calendar as CalendarPrimitive } from 'bits-ui';
 	import * as Calendar from './index.js';
-	import { cn } from '$lib/utils.js';
 
 	type $$Props = CalendarPrimitive.Props;
 
@@ -13,6 +14,10 @@
 
 	let className: $$Props['class'] = undefined;
 	export { className as class };
+
+	const isDateUnavailable = (date: DateValue) => {
+		return date.day === 17 || date.day === 18;
+	};
 </script>
 
 <CalendarPrimitive.Root
@@ -22,9 +27,9 @@
 	class={cn('p-3', className)}
 	{...$$restProps}
 	on:keydown
-	on:click
 	let:months
 	let:weekdays
+	{isDateUnavailable}
 >
 	<Calendar.Header>
 		<Calendar.PrevButton />
@@ -48,7 +53,11 @@
 						<Calendar.GridRow class="mt-2 w-full">
 							{#each weekDates as date}
 								<Calendar.Cell {date}>
-									<Calendar.Day {date} month={month.value} />
+									<Calendar.Day
+										{date}
+										month={month.value}
+										class="data-[unavailable]:line-through"
+									/>
 								</Calendar.Cell>
 							{/each}
 						</Calendar.GridRow>
