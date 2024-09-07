@@ -21,7 +21,7 @@
 		for you.
 	</h2>
 	<div class="w-full flex justify-center">
-		<div class="flex flex-col sm:flex-row border w-11/12 p-12 rounded-md gap-12">
+		<div class="flex flex-col sm:flex-row border w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12">
 			<Calendar bind:value class="rounded-md border shawdow w-fit items-center" />
 			<div>
 				-Get events for day -Display free slots -Input for email or phone -submit button
