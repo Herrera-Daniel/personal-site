@@ -33,8 +33,8 @@
 			the <a class="underline" href="/schedule">schedule</a> to request a phone call or meeting.
 		</h2>
 
-		<div class="text-lg sm:text-xl bg-gray-800 rounded-2xl p-6 w-full">
-			<Accordion>
+		<div class="flex text-lg sm:text-xl justify-center">
+			<Accordion class="w-10/12">
 				<AccordionItem value="item-1">
 					<AccordionTrigger>Technical Services</AccordionTrigger>
 					<AccordionContent>Website Design, Implementation, and Maintenance</AccordionContent>
