@@ -17,13 +17,15 @@
 	import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 	import {
 		DateFormatter,
+		getLocalTimeZone,
 		isSameDay,
 		parseAbsoluteToLocal,
+		today,
 		type DateValue
 	} from '@internationalized/date';
 
 	export let data: PageData;
-	let selectedDate: DateValue | undefined;
+	let selectedDate: DateValue | undefined = today(getLocalTimeZone()).add({ days: 2 });
 	let selectedTime: string | undefined;
 	let selectedService: { value: { value: string; label: string } } | undefined;
 	let name: string | undefined;
@@ -58,17 +60,20 @@
 	</h2>
 	<div class="w-full flex justify-center">
 		<div class="flex flex-col md:flex-row border w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12">
-			<div class="flex justify-center">
-				<Calendar bind:value={selectedDate} class="rounded-md border shawdow w-fit items-center" />
+			<div class="flex justify-center items-center">
+				<Calendar
+					bind:value={selectedDate}
+					class="rounded-md border shawdow w-fit h-fit items-center"
+				/>
 			</div>
 			{#if selectedDate}
 				{#if eventsForToday}
 					<div class="flex flex-col w-full gap-8">
 						{#each eventsForToday as event}
 							Available times for {formatDate(selectedDate.toDate('America/Denver'))}
-							<ToggleGroup bind:value={selectedTime}>
+							<ToggleGroup class="grid grid-cols-2 sm:grid-cols-3 gap-2" bind:value={selectedTime}>
 								<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-								{#each { length: event.hours } as _, i}
+								{#each { length: event.hours + 1 } as _, i}
 									<ToggleGroupItem
 										class="border data-[state=on]:border-primary data-[state=on]:bg-background p-8"
 										value={formatTime(event.start.add({ hours: i }).toDate())}
