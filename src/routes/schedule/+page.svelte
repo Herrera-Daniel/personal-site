@@ -3,6 +3,7 @@
 
 	import { Button } from '@/components/ui/button';
 	import Calendar from '@/components/ui/calendar/calendar.svelte';
+	import Input from '@/components/ui/input/input.svelte';
 	import { Label } from '@/components/ui/label';
 	import {
 		Select,
@@ -20,12 +21,12 @@
 		parseAbsoluteToLocal,
 		type DateValue
 	} from '@internationalized/date';
-	import type { Selected } from 'bits-ui';
 
 	export let data: PageData;
 	let selectedDate: DateValue | undefined;
 	let selectedTime: string | undefined;
 	let selectedService: { value: { value: string; label: string } } | undefined;
+	let name: string | undefined;
 
 	const formatTime = (date: Date) => {
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(date);
@@ -46,7 +47,7 @@
 				parseAbsoluteToLocal(e.start.dateTime).toDate().getHours()
 		}));
 
-	$: console.log(selectedService);
+	$: console.log(name);
 </script>
 
 <section class="flex flex-col gap-8">
@@ -98,7 +99,14 @@
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-						<Button disabled={!selectedDate || !selectedTime || !selectedService}>Submit</Button>
+						<Input placeholder="Name" bind:value={name} />
+						<Button
+							disabled={!selectedDate ||
+								!selectedTime ||
+								!selectedService ||
+								!name ||
+								name.length === 0}>Submit</Button
+						>
 					</div>
 				{/if}
 			{/if}
