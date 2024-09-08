@@ -7,9 +7,7 @@
 		getLocalTimeZone,
 		isSameDay,
 		parseAbsoluteToLocal,
-		Time,
 		today,
-		toTime,
 		ZonedDateTime,
 		type DateValue
 	} from '@internationalized/date';
@@ -42,7 +40,6 @@
 		}));
 </script>
 
-/** eslint-disable @typescript-eslint/no-unused-vars **/
 <section class="flex flex-col gap-8">
 	<h1 class="flex text-6xl sm:text-8xl mt-8 items-start">Schedule</h1>
 	<h2 class="text-xl mt-6 sm:text-2xl">
