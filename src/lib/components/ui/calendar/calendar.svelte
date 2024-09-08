@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils.js';
-	import type { DateValue } from '@internationalized/date';
+	import { getDayOfWeek, type DateValue } from '@internationalized/date';
 	import { Calendar as CalendarPrimitive } from 'bits-ui';
 	import * as Calendar from './index.js';
 
@@ -16,7 +16,8 @@
 	export { className as class };
 
 	const isDateUnavailable = (date: DateValue) => {
-		return date.day === 17 || date.day === 18;
+		const dayOfWeek = getDayOfWeek(date, 'en-US');
+		return date.day === 17 || date.day === 18 || dayOfWeek === 0 || dayOfWeek === 6;
 	};
 </script>
 
