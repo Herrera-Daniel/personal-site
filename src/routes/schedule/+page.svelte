@@ -29,6 +29,7 @@
 	let selectedTime: string | undefined;
 	let selectedService: { value: { value: string; label: string } } | undefined;
 	let name: string | undefined;
+	let email: string | undefined;
 
 	const formatTime = (date: Date) => {
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(date);
@@ -105,6 +106,7 @@
 							</SelectContent>
 						</Select>
 						<Input placeholder="Name" bind:value={name} />
+						<Input type="email" placeholder="Email" bind:value={email} />
 						<Button
 							disabled={!selectedDate ||
 								!selectedTime ||
