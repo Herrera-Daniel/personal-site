@@ -17,15 +17,13 @@
 	import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 	import {
 		DateFormatter,
-		getLocalTimeZone,
 		isSameDay,
 		parseAbsoluteToLocal,
-		today,
 		type DateValue
 	} from '@internationalized/date';
 
 	export let data: PageData;
-	let selectedDate: DateValue | undefined = today(getLocalTimeZone()).add({ days: 2 });
+	let selectedDate: DateValue | undefined;
 	let selectedTime: string | undefined;
 	let selectedService: { value: { value: string; label: string } } | undefined;
 	let name: string | undefined;
