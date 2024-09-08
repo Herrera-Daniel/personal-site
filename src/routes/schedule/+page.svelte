@@ -1,24 +1,31 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 
+	import { Button } from '@/components/ui/button';
 	import Calendar from '@/components/ui/calendar/calendar.svelte';
+	import { Label } from '@/components/ui/label';
+	import {
+		Select,
+		SelectContent,
+		SelectGroup,
+		SelectLabel,
+		SelectTrigger,
+		SelectValue
+	} from '@/components/ui/select';
+	import SelectItem from '@/components/ui/select/select-item.svelte';
+	import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 	import {
 		DateFormatter,
-		getLocalTimeZone,
 		isSameDay,
 		parseAbsoluteToLocal,
-		today,
-		ZonedDateTime,
 		type DateValue
 	} from '@internationalized/date';
+	import type { Selected } from 'bits-ui';
 
 	export let data: PageData;
-	let value: DateValue | undefined = today(getLocalTimeZone()).add({ days: 1 });
-	let selectedTime: ZonedDateTime | undefined;
-
-	const selectTime = (time: ZonedDateTime) => {
-		selectedTime = time;
-	};
+	let selectedDate: DateValue | undefined;
+	let selectedTime: string | undefined;
+	let selectedService: { value: { value: string; label: string } } | undefined;
 
 	const formatTime = (date: Date) => {
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(date);
@@ -29,7 +36,7 @@
 	};
 
 	$: eventsForToday = data.events
-		.filter((e) => value && isSameDay(value, parseAbsoluteToLocal(e.start.dateTime)))
+		.filter((e) => selectedDate && isSameDay(selectedDate, parseAbsoluteToLocal(e.start.dateTime)))
 		.map((e) => ({
 			summary: e.summary,
 			start: parseAbsoluteToLocal(e.start.dateTime),
@@ -38,6 +45,8 @@
 				parseAbsoluteToLocal(e.end.dateTime).toDate().getHours() -
 				parseAbsoluteToLocal(e.start.dateTime).toDate().getHours()
 		}));
+
+	$: console.log(selectedService);
 </script>
 
 <section class="flex flex-col gap-8">
@@ -47,27 +56,54 @@
 		for you.
 	</h2>
 	<div class="w-full flex justify-center">
-		<div class="flex flex-col sm:flex-row border w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12">
-			<Calendar bind:value class="rounded-md border shawdow w-fit items-center" />
-			{#if value}
-				<div>
-					-Get events for day -Display free slots -Input for email or phone -submit button
-					{formatDate(value.toDate('America/Denver'))}
-					{#if eventsForToday}
+		<div class="flex flex-col md:flex-row border w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12">
+			<div class="flex justify-center">
+				<Calendar bind:value={selectedDate} class="rounded-md border shawdow w-fit items-center" />
+			</div>
+			{#if selectedDate}
+				{#if eventsForToday}
+					<div class="flex flex-col w-full gap-8">
 						{#each eventsForToday as event}
-							<div class="grid grid-cols-3 gap-8">
+							Available times for {formatDate(selectedDate.toDate('America/Denver'))}
+							<ToggleGroup bind:value={selectedTime}>
+								<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 								{#each { length: event.hours } as _, i}
-									<button
-										on:click={() => selectTime(event.start.add({ hours: 1 }))}
-										class="text-center justify-center bg-secondary p-2 hover:bg-primary rounded-md"
+									<ToggleGroupItem
+										class="border data-[state=on]:border-primary data-[state=on]:bg-background p-8"
+										value={formatTime(event.start.add({ hours: i }).toDate())}
 									>
-										{formatTime(event.start.add({ hours: i }).toDate())}
-									</button>
+										<Label class="text-white">
+											{formatTime(event.start.add({ hours: i }).toDate())}
+										</Label>
+									</ToggleGroupItem>
 								{/each}
-							</div>
+							</ToggleGroup>
 						{/each}
-					{/if}
-				</div>
+						<Select bind:selected={selectedService}>
+							<SelectTrigger>
+								<SelectValue placeholder="Select a service" />
+							</SelectTrigger>
+							<SelectContent class="dark">
+								<SelectGroup>
+									<SelectLabel>Technical Services</SelectLabel>
+									<SelectItem value="website">Website Development</SelectItem>
+									<SelectItem value="app">Application Development</SelectItem>
+									<SelectItem value="db">Database Development</SelectItem>
+								</SelectGroup>
+								<SelectGroup>
+									<SelectLabel>Tutoring Services</SelectLabel>
+									<SelectItem value="math">Math Tutoring</SelectItem>
+									<SelectItem value="coding">Programming Lessons/Tutoring</SelectItem>
+									<SelectItem value="physics">Physics Tutoring</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+						<Button disabled={!selectedDate || !selectedTime || !selectedService}>Submit</Button>
+					</div>
+				{/if}
+			{/if}
+			{#if !selectedDate}
+				<div class="flex justify-center items-center w-full">Please Select a date.</div>
 			{/if}
 		</div>
 	</div>
