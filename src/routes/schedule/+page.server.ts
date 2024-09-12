@@ -1,7 +1,6 @@
 import { DateFormatter, parseZonedDateTime } from '@internationalized/date';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
-import type { PageServerLoad } from './$types';
 
 import {
 	CALENDAR_CLIENT_EMAIL,
@@ -18,17 +17,6 @@ const SCOPES = [
 	'https://www.googleapis.com/auth/calendar.events'
 ];
 
-type CalendarEvent = {
-	summary: string;
-	start: { dateTime: string; timeZone: string };
-	end: { dateTime: string; timeZone: string };
-	status: string;
-};
-
-type j = {
-	items: CalendarEvent[];
-};
-
 const mailgunAuth = {
 	auth: {
 		api_key: EMAIL_API_KEY,
@@ -44,24 +32,6 @@ const calendarAuth = new JWT({
 
 const nodemailerMailgun = nodemailer.createTransport(mg(mailgunAuth));
 
-export const load: PageServerLoad = async () => {
-	const calendarId =
-		'840dfa8a8e3b6e75c172d138cfb3a745ed64ce752bafe00e48a1bcd1865f9dc1@group.calendar.google.com';
-
-	const events = (
-		(await google
-			.calendar({ version: 'v3' })
-			.events.list({
-				auth: calendarAuth,
-				calendarId: calendarId,
-				showDeleted: false,
-				singleEvents: true
-			})
-			.then((res) => res.data)) as j
-	).items;
-	return { events };
-};
-
 export const actions = {
 	default: async ({ request }) => {
 		let error;
@@ -75,7 +45,7 @@ export const actions = {
 				subject: 'New Meeting Request',
 				text: `Date: ${data.get('date')}\nTime: ${formatTime(data.get('startTime') as string)}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nService: ${data.get('service')}`
 			},
-			(err, info) => {
+			(err) => {
 				if (err) {
 					error = err;
 				}
@@ -101,7 +71,7 @@ export const actions = {
 					status: 'tentative'
 				}
 			},
-			(err, event) => {
+			(err: Error) => {
 				if (err) {
 					error = err;
 				}
