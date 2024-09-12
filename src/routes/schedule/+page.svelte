@@ -18,23 +18,20 @@
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import {
 		DateFormatter,
-		getLocalTimeZone,
 		isSameDay,
 		parseAbsoluteToLocal,
 		parseZonedDateTime,
-		today,
 		type DateValue
 	} from '@internationalized/date';
 
 	export let data: PageData;
-	let selectedDate: DateValue | undefined = today(getLocalTimeZone());
+	let selectedDate: DateValue | undefined;
 	let selectedStartTime: string = '';
 	let selectedService: { value: string; label: string } | undefined;
 	let name: string | undefined;
 	let email: string | undefined;
 
 	const formatTime = (time: string) => {
-		console.log(time);
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
 			parseZonedDateTime(time).toDate()
 		);
@@ -82,7 +79,6 @@
 									class="grid grid-cols-2 sm:grid-cols-3 gap-2"
 									bind:value={selectedStartTime}
 								>
-									<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 									{#each { length: event.hours + 1 } as _, i}
 										<ToggleGroupItem
 											class="border data-[state=on]:border-primary data-[state=on]:bg-background p-8"
