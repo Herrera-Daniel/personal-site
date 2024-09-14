@@ -58,7 +58,13 @@
 			</div>
 			<div class="flex flex-col w-full gap-8 justify-center">
 				<form class="flex flex-col gap-8" method="POST" use:enhance>
+					{#if !selectedDate}
+						<div class="flex justify-center items-center w-full">Please Select a date.</div>
+					{/if}
 					{#each events as event}
+						{#if event.times.length === 0}
+							No available times
+						{/if}
 						{#if selectedDate && isSameDay(parseAbsoluteToLocal(event.start), selectedDate)}
 							Available times for {formatDate(selectedDate.toDate('America/Denver'))}
 							<ToggleGroup
@@ -111,12 +117,6 @@
 					{/each}
 				</form>
 			</div>
-			{#if !selectedDate}
-				<div class="flex justify-center items-center w-full">Please Select a date.</div>
-			{/if}
-			{#if selectedDate}
-				<div class="flex justify-center items-center w-full">No times are available</div>
-			{/if}
 		</div>
 	{:catch error}
 		{error}
