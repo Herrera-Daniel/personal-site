@@ -1,3 +1,8 @@
+export const config = {
+	// Use 'nodejs18.x' for Serverless
+	runtime: 'edge'
+};
+
 import { CALENDAR_CLIENT_EMAIL, CALENDAR_PRIVATE_KEY } from '$env/static/private';
 import { isSameDay, parseAbsoluteToLocal } from '@internationalized/date';
 import { JWT } from 'google-auth-library';

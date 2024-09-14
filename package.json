@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"@internationalized/date": "^3.5.5",
+		"@sveltejs/adapter-vercel": "^5.4.3",
 		"@types/nodemailer": "^6.4.15",
 		"@types/nodemailer-mailgun-transport": "^1.4.6",
 		"bits-ui": "^0.21.13",
