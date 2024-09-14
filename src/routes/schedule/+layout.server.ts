@@ -1,8 +1,3 @@
-export const config = {
-	// Use 'nodejs18.x' for Serverless
-	runtime: 'edge'
-};
-
 import { CALENDAR_CLIENT_EMAIL, CALENDAR_PRIVATE_KEY } from '$env/static/private';
 import { isSameDay, parseAbsoluteToLocal } from '@internationalized/date';
 import { JWT } from 'google-auth-library';
@@ -30,10 +25,6 @@ type CalendarEvent = {
 	status: string;
 };
 
-type j = {
-	items: CalendarEvent[];
-};
-
 export const load: LayoutServerLoad = async () => {
 	const items = google
 		.calendar({ version: 'v3' })
@@ -46,7 +37,7 @@ export const load: LayoutServerLoad = async () => {
 		})
 		.then((res) => res.data)
 		.then((data) => {
-			const items = data.items as CaledarEvent[];
+			const items = data.items as CalendarEvent[];
 
 			return items
 				.filter((i) => i.summary === 'Free')
