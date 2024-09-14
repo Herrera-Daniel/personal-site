@@ -1,4 +1,9 @@
-import { DateFormatter, parseZonedDateTime } from '@internationalized/date';
+import {
+	DateFormatter,
+	isSameDay,
+	parseAbsoluteToLocal,
+	parseZonedDateTime
+} from '@internationalized/date';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 
@@ -11,11 +16,14 @@ import {
 import { redirect } from '@sveltejs/kit';
 import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
+import type { PageServerLoad } from './$types.js';
 
 const SCOPES = [
 	'https://www.googleapis.com/auth/calendar',
 	'https://www.googleapis.com/auth/calendar.events'
 ];
+const CALENDAR_ID =
+	'840dfa8a8e3b6e75c172d138cfb3a745ed64ce752bafe00e48a1bcd1865f9dc1@group.calendar.google.com';
 
 const mailgunAuth = {
 	auth: {
@@ -35,15 +43,15 @@ const nodemailerMailgun = nodemailer.createTransport(mg(mailgunAuth));
 export const actions = {
 	default: async ({ request }) => {
 		let error;
-		const calendarId =
-			'840dfa8a8e3b6e75c172d138cfb3a745ed64ce752bafe00e48a1bcd1865f9dc1@group.calendar.google.com';
+
 		const data = await request.formData();
+
 		nodemailerMailgun.sendMail(
 			{
 				from: 'mailgun@sandboxb377c6e2383f42359367d636f993f6f8.mailgun.org',
 				to: 'daniel.herrera33@proton.me',
 				subject: 'New Meeting Request',
-				text: `Date: ${data.get('date')}\nTime: ${formatTime(data.get('startTime') as string)}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nService: ${data.get('service')}`
+				text: `Date: ${data.get('date')}\nTime: ${formatTimeFromString(data.get('startTime') as string)}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nService: ${data.get('service')}`
 			},
 			(err) => {
 				if (err) {
@@ -62,7 +70,7 @@ export const actions = {
 		google.calendar({ version: 'v3' }).events.insert(
 			{
 				auth: calendarAuth,
-				calendarId: calendarId,
+				calendarId: CALENDAR_ID,
 				sendUpdates: 'all',
 				requestBody: {
 					summary: `${data.get('name')} - ${data.get('service')}`,
@@ -85,7 +93,7 @@ export const actions = {
 	}
 };
 
-const formatTime = (time: string) => {
+const formatTimeFromString = (time: string) => {
 	return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
 		parseZonedDateTime(time).toDate()
 	);
