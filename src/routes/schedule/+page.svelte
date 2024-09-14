@@ -43,6 +43,11 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Schedule</title>
+	<meta name="description" content="Schedule a meeting time" />
+</svelte:head>
+
 <div class="w-full flex justify-center">
 	{#await data.events}
 		loading
