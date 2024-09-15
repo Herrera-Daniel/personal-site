@@ -55,7 +55,9 @@ export const load: LayoutServerLoad = async () => {
 						(se) =>
 							isSameDay(startDate, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
 					);
-					const times = [...Array(hours + 1).keys()].map((t) => {
+					console.log(hours);
+
+					const times = [...Array(hours).keys()].map((t) => {
 						const hour = parseAbsoluteToLocal(i.start.dateTime).add({ hours: t });
 						const reserved = otherEventsOnDay.find(
 							(se) =>
