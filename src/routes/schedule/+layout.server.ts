@@ -4,10 +4,6 @@ import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
 import type { LayoutServerLoad } from './$types';
 
-export const config = {
-	runtime: 'nodejs'
-};
-
 const SCOPES = [
 	'https://www.googleapis.com/auth/calendar',
 	'https://www.googleapis.com/auth/calendar.events'
