@@ -1,6 +1,6 @@
 import { CALENDAR_CLIENT_EMAIL, CALENDAR_PRIVATE_KEY } from '$env/static/private';
-import { isSameDay, parseAbsoluteToLocal } from '@internationalized/date';
-import { JWT } from 'google-auth-library';
+import { getLocalTimeZone, isSameDay, parseAbsoluteToLocal, today } from '@internationalized/date';
+import { JWT, LoginTicket } from 'google-auth-library';
 import { google } from 'googleapis';
 import type { LayoutServerLoad } from './$types';
 
@@ -33,7 +33,9 @@ export const load: LayoutServerLoad = async () => {
 			calendarId: CALENDAR_ID,
 			showDeleted: false,
 			singleEvents: true,
-			maxResults: 50
+			maxResults: 100,
+			timeMin: today(getLocalTimeZone()).toDate('America/Denver').toISOString(),
+			orderBy: 'startTime'
 		})
 		.then((res) => res.data)
 		.then((data) => {
@@ -49,7 +51,6 @@ export const load: LayoutServerLoad = async () => {
 						(se) =>
 							isSameDay(startDate, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
 					);
-
 					const times = [...Array(hours + 1).keys()].map((t) => {
 						const hour = parseAbsoluteToLocal(i.start.dateTime).add({ hours: t });
 						const reserved = otherEventsOnDay.find(

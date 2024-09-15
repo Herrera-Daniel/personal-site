@@ -32,7 +32,6 @@
 	let email: string | undefined;
 
 	const formatTime = (time: string) => {
-		console.log(time);
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
 			parseZonedDateTime(time).toDate()
 		);
@@ -41,6 +40,7 @@
 	const formatDate = (date: Date) => {
 		return new DateFormatter('en-US').format(date);
 	};
+	$: data.events;
 </script>
 
 <svelte:head>
