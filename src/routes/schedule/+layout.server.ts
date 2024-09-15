@@ -1,8 +1,12 @@
 import { CALENDAR_CLIENT_EMAIL, CALENDAR_PRIVATE_KEY } from '$env/static/private';
 import { getLocalTimeZone, isSameDay, parseAbsoluteToLocal, today } from '@internationalized/date';
-import { JWT, LoginTicket } from 'google-auth-library';
+import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
 import type { LayoutServerLoad } from './$types';
+
+export const config = {
+	runtime: 'nodejs'
+};
 
 const SCOPES = [
 	'https://www.googleapis.com/auth/calendar',
@@ -58,9 +62,11 @@ export const load: LayoutServerLoad = async () => {
 								parseAbsoluteToLocal(se.start.dateTime).add({ hours: t }).toString() ===
 								startDate.toString()
 						);
+						if (reserved) {
+							return;
+						}
 						return {
-							time: hour.toString(),
-							reserved: reserved !== undefined
+							time: hour.toString()
 						};
 					});
 
@@ -68,7 +74,7 @@ export const load: LayoutServerLoad = async () => {
 						summary: i.summary,
 						start: i.start.dateTime,
 						end: i.end.dateTime,
-						times
+						times: times.filter((t) => t !== undefined)
 					};
 				});
 		});

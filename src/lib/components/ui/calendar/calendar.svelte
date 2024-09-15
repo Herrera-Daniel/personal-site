@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils.js';
-	import { getDayOfWeek, isWeekend, type DateValue } from '@internationalized/date';
+	import { getLocalTimeZone, isWeekend, today, type DateValue } from '@internationalized/date';
 	import { Calendar as CalendarPrimitive } from 'bits-ui';
 	import * as Calendar from './index.js';
 
@@ -16,7 +16,7 @@
 	export { className as class };
 
 	const isDateUnavailable = (date: DateValue) => {
-		return isWeekend(date, 'en-us');
+		return isWeekend(date, 'en-us') || date.compare(today(getLocalTimeZone())) < 0;
 	};
 </script>
 

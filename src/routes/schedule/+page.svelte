@@ -40,7 +40,6 @@
 	const formatDate = (date: Date) => {
 		return new DateFormatter('en-US').format(date);
 	};
-	$: data.events;
 </script>
 
 <svelte:head>
@@ -80,7 +79,6 @@
 									<ToggleGroupItem
 										class="border data-[state=on]:border-primary data-[state=on]:bg-background p-8"
 										value={time.time}
-										disabled={time.reserved}
 									>
 										<Label class="text-white">
 											{formatTime(time.time).toString()}
