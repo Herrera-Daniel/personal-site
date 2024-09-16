@@ -37,46 +37,41 @@ export const load: LayoutServerLoad = async () => {
 			calendarId: CALENDAR_ID,
 			showDeleted: false,
 			singleEvents: true,
-			maxResults: 100,
+			maxResults: 10,
 			timeMin: today(getLocalTimeZone()).toDate('America/Denver').toISOString(),
 			orderBy: 'startTime'
 		})
 		.then((res) => res.data)
 		.then((data) => {
-			const items = data.items as CalendarEvent[];
+			const events = data.items as CalendarEvent[];
 
-			return items
+			return events
 				.filter((i) => i.summary === 'Free')
 				.map((i) => {
 					const startDate = parseAbsoluteToLocal(i.start.dateTime);
 					const endDate = parseAbsoluteToLocal(i.end.dateTime);
 					const hours = endDate.toDate().getHours() - startDate.toDate().getHours();
-					const otherEventsOnDay = items.filter(
+					const otherEventsOnDay = events.filter(
 						(se) =>
 							isSameDay(startDate, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
 					);
-					console.log(hours);
 
 					const times = [...Array(hours).keys()].map((t) => {
 						const hour = parseAbsoluteToLocal(i.start.dateTime).add({ hours: t });
 						const reserved = otherEventsOnDay.find(
-							(se) =>
-								parseAbsoluteToLocal(se.start.dateTime).add({ hours: t }).toString() ===
-								startDate.toString()
+							(se) => parseAbsoluteToLocal(se.start.dateTime).toString() === hour.toString()
 						);
-						if (reserved) {
-							return;
-						}
+
 						return {
-							time: hour.toString()
+							time: hour.toString(),
+							reserved: reserved !== undefined
 						};
 					});
-
 					return {
 						summary: i.summary,
 						start: i.start.dateTime,
 						end: i.end.dateTime,
-						times: times.filter((t) => t !== undefined)
+						times: times.filter((t) => !t.reserved)
 					};
 				});
 		});
