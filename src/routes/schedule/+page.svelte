@@ -41,7 +41,6 @@
 	onMount(async () => {
 		const calData = await fetch('/api/schedule').then((res) => res.json());
 		events = calData;
-		console.log(calData);
 	});
 
 	const formatTime = (time: string) => {
@@ -60,15 +59,15 @@
 	<meta name="description" content="Schedule a meeting time" />
 </svelte:head>
 
-<div class="w-full flex-col flex justify-center">
-	<h2 class="text-lg sm:text-xl mb-8">
-		Use this calendar to select a time that works best for you. All times are in Mountain time.
-	</h2>
+<h2 class="text-lg sm:text-xl mb-8">
+	Use this calendar to select a time that works best for you. All times are in Mountain time.
+</h2>
+<div class="w-full flex-col flex items-center">
 	{#if !events}
 		<div
-			class="flex flex-col md:flex-row border h-[24rem] items-center justify-center max-w-4xl w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12"
+			class="flex flex-col md:flex-row border h-[25rem] items-center justify-center max-w-4xl w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12"
 		>
-			loading
+			Loading...
 		</div>
 	{:else}
 		<div

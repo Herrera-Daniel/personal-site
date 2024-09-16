@@ -9,7 +9,7 @@
 
 <div class="bg-background text-white min-h-screen dark">
 	<Header />
-	<main class="p-6 sm:p-12">
+	<main class="p-6 sm:p-16">
 		<slot />
 	</main>
 </div>
