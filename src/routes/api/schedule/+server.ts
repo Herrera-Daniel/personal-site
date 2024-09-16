@@ -51,7 +51,7 @@ export const GET: RequestHandler = async () => {
 						(se) =>
 							isSameDay(startDate, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
 					);
-					console.log(hours);
+					console.log(hours, startDate, endDate);
 
 					const times = [...Array(hours).keys()].map((t) => {
 						const hour = parseAbsoluteToLocal(i.start.dateTime).add({ hours: t });
