@@ -46,7 +46,10 @@ export const GET: RequestHandler = async () => {
 				.map((i) => {
 					const startTime = parseAbsoluteToLocal(i.start.dateTime);
 					const endTime = parseAbsoluteToLocal(i.end.dateTime);
-					const hours = endTime.toDate().getHours() - startTime.toDate().getHours();
+					let hours = endTime.toDate().getHours() - startTime.toDate().getHours();
+					if (hours < 0) {
+						hours = hours + 24;
+					}
 					const otherEventsOnDay = events.filter(
 						(se) =>
 							isSameDay(startTime, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
