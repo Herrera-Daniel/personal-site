@@ -33,7 +33,7 @@ export const GET: RequestHandler = async () => {
 			calendarId: CALENDAR_ID,
 			showDeleted: false,
 			singleEvents: true,
-			maxResults: 100,
+			maxResults: 200,
 			timeMin: today(getLocalTimeZone()).toDate('America/Denver').toISOString(),
 			orderBy: 'startTime'
 		})
@@ -44,14 +44,14 @@ export const GET: RequestHandler = async () => {
 			return events
 				.filter((i) => i.summary === 'Free')
 				.map((i) => {
-					const startDate = parseAbsoluteToLocal(i.start.dateTime);
-					const endDate = parseAbsoluteToLocal(i.end.dateTime);
-					const hours = endDate.toDate().getHours() - startDate.toDate().getHours();
+					const startTime = parseAbsoluteToLocal(i.start.dateTime);
+					const endTime = parseAbsoluteToLocal(i.end.dateTime);
+					const hours = endTime.toDate().getHours() - startTime.toDate().getHours();
 					const otherEventsOnDay = events.filter(
 						(se) =>
-							isSameDay(startDate, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
+							isSameDay(startTime, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
 					);
-					console.log(hours, startDate, endDate);
+					console.log(hours, i.start.dateTime, i.end.dateTime);
 
 					const times = [...Array(hours).keys()].map((t) => {
 						const hour = parseAbsoluteToLocal(i.start.dateTime).add({ hours: t });
