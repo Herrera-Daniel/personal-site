@@ -18,18 +18,31 @@
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import {
 		DateFormatter,
+		type DateValue,
 		isSameDay,
 		parseAbsoluteToLocal,
-		parseZonedDateTime,
-		type DateValue
+		parseZonedDateTime
 	} from '@internationalized/date';
+	import { onMount } from 'svelte';
 
-	export let data: PageData;
+	type CalendarEvent = {
+		summary: string;
+		start: { dateTime: string; timeZone: string };
+		end: { dateTime: string; timeZone: string };
+		status: string;
+	};
+	let events: CalendarEvent[] | null = null;
 	let selectedDate: DateValue | undefined;
 	let selectedStartTime: string = '';
 	let selectedService: { value: string; label: string } | undefined;
 	let name: string | undefined;
 	let email: string | undefined;
+
+	onMount(async () => {
+		const calData = await fetch('/api/schedule').then((res) => res.json());
+		events = calData;
+		console.log(calData);
+	});
 
 	const formatTime = (time: string) => {
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
@@ -47,12 +60,19 @@
 	<meta name="description" content="Schedule a meeting time" />
 </svelte:head>
 
-<div class="w-full flex justify-center">
-	{#await data.events}
-		loading
-	{:then events}
+<div class="w-full flex-col flex justify-center">
+	<h2 class="text-lg sm:text-xl mb-8">
+		Use this calendar to select a time that works best for you. All times are in Mountain time.
+	</h2>
+	{#if !events}
 		<div
-			class="flex flex-col md:flex-row border max-w-4xl w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12"
+			class="flex flex-col md:flex-row border h-[24rem] items-center justify-center max-w-4xl w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12"
+		>
+			loading
+		</div>
+	{:else}
+		<div
+			class="flex flex-col md:flex-row border max-w-4xl w-full sm:w-11/12 px-2 py-4 sm:p-12 rounded-md gap-12"
 		>
 			<div class="flex justify-center">
 				<Calendar
@@ -121,7 +141,5 @@
 				</form>
 			</div>
 		</div>
-	{:catch error}
-		{error}
-	{/await}
+	{/if}
 </div>

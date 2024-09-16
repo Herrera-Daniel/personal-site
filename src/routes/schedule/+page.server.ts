@@ -1,11 +1,4 @@
-import {
-	DateFormatter,
-	getLocalTimeZone,
-	isSameDay,
-	parseAbsoluteToLocal,
-	parseZonedDateTime,
-	today
-} from '@internationalized/date';
+import { DateFormatter, parseZonedDateTime } from '@internationalized/date';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 
@@ -18,7 +11,6 @@ import {
 import { redirect } from '@sveltejs/kit';
 import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
-import type { PageServerLoad } from './$types.js';
 
 const SCOPES = [
 	'https://www.googleapis.com/auth/calendar',
@@ -26,13 +18,6 @@ const SCOPES = [
 ];
 const CALENDAR_ID =
 	'840dfa8a8e3b6e75c172d138cfb3a745ed64ce752bafe00e48a1bcd1865f9dc1@group.calendar.google.com';
-
-type CalendarEvent = {
-	summary: string;
-	start: { dateTime: string; timeZone: string };
-	end: { dateTime: string; timeZone: string };
-	status: string;
-};
 
 const mailgunAuth = {
 	auth: {
@@ -48,56 +33,6 @@ const calendarAuth = new JWT({
 });
 
 const nodemailerMailgun = nodemailer.createTransport(mg(mailgunAuth));
-
-export const load: PageServerLoad = async () => {
-	const items = google
-		.calendar({ version: 'v3' })
-		.events.list({
-			auth: calendarAuth,
-			calendarId: CALENDAR_ID,
-			showDeleted: false,
-			singleEvents: true,
-			maxResults: 10,
-			timeMin: today(getLocalTimeZone()).toDate('America/Denver').toISOString(),
-			orderBy: 'startTime'
-		})
-		.then((res) => res.data)
-		.then((data) => {
-			const events = data.items as CalendarEvent[];
-
-			return events
-				.filter((i) => i.summary === 'Free')
-				.map((i) => {
-					const startDate = parseAbsoluteToLocal(i.start.dateTime);
-					const endDate = parseAbsoluteToLocal(i.end.dateTime);
-					const hours = endDate.toDate().getHours() - startDate.toDate().getHours();
-					const otherEventsOnDay = events.filter(
-						(se) =>
-							isSameDay(startDate, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
-					);
-
-					const times = [...Array(hours).keys()].map((t) => {
-						const hour = parseAbsoluteToLocal(i.start.dateTime).add({ hours: t });
-						const reserved = otherEventsOnDay.find(
-							(se) => parseAbsoluteToLocal(se.start.dateTime).toString() === hour.toString()
-						);
-
-						return {
-							time: hour.toString(),
-							reserved: reserved !== undefined
-						};
-					});
-					return {
-						summary: i.summary,
-						start: i.start.dateTime,
-						end: i.end.dateTime,
-						times: times.filter((t) => !t.reserved)
-					};
-				});
-		});
-
-	return { events: items };
-};
 
 export const actions = {
 	default: async ({ request }) => {

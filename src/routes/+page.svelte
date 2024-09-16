@@ -3,6 +3,7 @@
 	import AccordionContent from '@/components/ui/accordion/accordion-content.svelte';
 	import AccordionItem from '@/components/ui/accordion/accordion-item.svelte';
 	import AccordionTrigger from '@/components/ui/accordion/accordion-trigger.svelte';
+	import resume from '@/resume/resume.pdf';
 </script>
 
 <svelte:head>
@@ -12,30 +13,33 @@
 
 <section class="flex-col gap-8">
 	<div class="flex-col">
-		<h1 class="text-6xl sm:text-8xl mt-8">Welcome</h1>
-		<h2 class="text-4xl mt-6 sm:text-6xl">
+		<h1 class="text-2xl sm:text-5xl mt-8">Welcome</h1>
+		<h2 class="text-xl mt-6 sm:text-3xl">
 			<span> My name is </span>
-			<span class="welcomeName"> Daniel Herrera </span>
+			<span class="text-primary"> <a href={resume} download>Daniel Herrera</a></span>
 		</h2>
 	</div>
 	<div class="mt-12">
-		<h2 class="text-xl sm:text-2xl">
-			I am a Software Engineer with 5 years of professional experience building enterprise level
-			applications. I graduated in 2019 with degrees in Physics with an emphasis in Astronomy, and
-			Software Engineering.
-		</h2>
+		<p class="sm:text-xl">
+			If you're looking for my resume, you can download it <a
+				class="text-primary"
+				download
+				href={resume}>here</a
+			>. <br /> <br />
+			I am a Software Engineer with 5 years of professional experience building enterprise level applications.
+			I have two bachelors degrees in Physics with an emphasis in Astronomy, and Software Engineering.
+		</p>
 	</div>
 
 	<div>
-		<h2 class="text-xl sm:text-2xl mt-8 mb-8">
-			I offer a variety of services, from tutoring and lessons, to website and application
-			development. If anything interests you please contact me at <a
-				class="underline"
-				type="email"
-				href="mailto:daniel.herrera33@proton.me">daniel.herrera33@proton.me</a
-			>
-			or use the <a class="underline" href="/schedule">schedule</a> to request a phone call or meeting.
-		</h2>
+		<p class="sm:text-xl mt-8 mb-8">
+			If you want help with college prep, have a software problems, or just want to learn something
+			new, I'm here to help. I offer a variety of services, from tutoring and lessons, to website
+			and application development. <br /> <br /> You can email me
+			<a class="text-primary" type="email" href="mailto:daniel.herrera33@proton.me">here</a>
+			or use the <a class="text-primary" href="/schedule">schedule</a> to request a phone call or
+			meeting to discuss quotes. <br />
+		</p>
 
 		<div class="flex text-lg sm:text-xl justify-center">
 			<Accordion class="w-10/12">
@@ -55,13 +59,3 @@
 		</div>
 	</div>
 </section>
-
-<style>
-	.welcomeName {
-		color: var(--color-theme-1);
-	}
-
-	h2 > a {
-		color: var(--color-theme-1);
-	}
-</style>

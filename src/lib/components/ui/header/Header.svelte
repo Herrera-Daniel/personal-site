@@ -6,9 +6,13 @@
 	<a href="/"><img class="icon" src={logo} alt="logo" /></a>
 	<nav>
 		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/about">About</a></li>
-			<li><a href="/schedule">Schedule</a></li>
+			<li><a class="hover:text-primary" href="/">Home</a></li>
+			<li><a class="hover:text-primary" href="/about">About</a></li>
+			<li>
+				<a class="hover:text-primary" data-sveltekit-preload-data="hover" href="/schedule"
+					>Schedule</a
+				>
+			</li>
 		</ul>
 	</nav>
 </div>
