@@ -59,7 +59,7 @@
 	<meta name="description" content="Schedule a meeting time" />
 </svelte:head>
 
-<h2 class="text-lg sm:text-xl mb-8">
+<h2 class="sm:text-xl mb-8">
 	Use this calendar to select a time that works best for you. All times are in Mountain time.
 </h2>
 <div class="w-full flex-col flex items-center">
@@ -71,7 +71,7 @@
 		</div>
 	{:else}
 		<div
-			class="flex flex-col md:flex-row border max-w-4xl w-full sm:w-11/12 px-2 py-4 sm:p-12 rounded-md gap-12"
+			class="flex flex-col md:flex-row sm:min-w-[640px] max-w-4xl border w-full px-2 py-4 sm:p-12 rounded-md gap-12"
 		>
 			<div class="flex justify-center">
 				<Calendar
@@ -82,7 +82,7 @@
 			<div class="flex flex-col w-full gap-8 justify-center">
 				<form class="flex flex-col gap-8" method="POST" use:enhance>
 					{#if !selectedDate}
-						<div class="flex justify-center items-center w-full">Please Select a date.</div>
+						<div class="flex justify-center text-center w-full">Please select a date</div>
 					{/if}
 					{#each events as event}
 						{#if event.times.length === 0}
