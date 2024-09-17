@@ -60,9 +60,9 @@
 </svelte:head>
 
 {#if !events}
-	Loading...
+	<div class="m-auto">Loading...</div>
 {:else}
-	<div class="flex justify-center">
+	<div class="h-full">
 		<Calendar
 			bind:value={selectedDate}
 			class="rounded-md border shawdow w-fit h-fit items-center"
