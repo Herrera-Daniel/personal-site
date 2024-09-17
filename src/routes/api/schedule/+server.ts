@@ -33,7 +33,7 @@ export const GET: RequestHandler = async () => {
 			calendarId: CALENDAR_ID,
 			showDeleted: false,
 			singleEvents: true,
-			maxResults: 200,
+			maxResults: 60,
 			timeMin: today(getLocalTimeZone()).toDate('America/Denver').toISOString(),
 			orderBy: 'startTime'
 		})

@@ -59,86 +59,70 @@
 	<meta name="description" content="Schedule a meeting time" />
 </svelte:head>
 
-<h2 class="sm:text-xl mb-8">
-	Use this calendar to select a time that works best for you. All times are in Mountain time.
-</h2>
-<div class="w-full flex-col flex items-center">
-	{#if !events}
-		<div
-			class="flex flex-col md:flex-row border h-[25rem] items-center justify-center max-w-4xl w-full sm:w-11/12 p-2 sm:p-12 rounded-md gap-12"
-		>
-			Loading...
-		</div>
-	{:else}
-		<div
-			class="flex flex-col md:flex-row sm:min-w-[640px] max-w-4xl border w-full px-2 py-4 sm:p-12 rounded-md gap-12"
-		>
-			<div class="flex justify-center">
-				<Calendar
-					bind:value={selectedDate}
-					class="rounded-md border shawdow w-fit h-fit items-center"
-				/>
-			</div>
-			<div class="flex flex-col w-full gap-8 justify-center">
-				<form class="flex flex-col gap-8" method="POST" use:enhance>
-					{#if !selectedDate}
-						<div class="flex justify-center text-center w-full">Please select a date</div>
+{#if !events}
+	Loading...
+{:else}
+	<div class="flex justify-center">
+		<Calendar
+			bind:value={selectedDate}
+			class="rounded-md border shawdow w-fit h-fit items-center"
+		/>
+	</div>
+	<div class="flex flex-col w-full gap-8 justify-center">
+		<form class="flex flex-col gap-8" method="POST" use:enhance>
+			{#if !selectedDate}
+				<div class="flex justify-center text-center w-full">Please select a date</div>
+			{/if}
+			{#each events as event}
+				{#if event.times.length === 0}
+					No available times
+				{/if}
+				{#if selectedDate && isSameDay(parseAbsoluteToLocal(event.start), selectedDate)}
+					Available times for {formatDate(selectedDate.toDate('America/Denver'))}
+					<ToggleGroup class="grid grid-cols-2 sm:grid-cols-3 gap-2" bind:value={selectedStartTime}>
+						{#each event.times as time}
+							<ToggleGroupItem
+								class="border data-[state=on]:border-primary data-[state=on]:bg-background p-8"
+								value={time.time}
+							>
+								<Label class="text-white">
+									{formatTime(time.time).toString()}
+								</Label>
+							</ToggleGroupItem>
+						{/each}
+					</ToggleGroup>
+					<Select bind:selected={selectedService}>
+						<SelectTrigger>
+							<SelectValue placeholder="Select a service" />
+						</SelectTrigger>
+						<SelectContent class="dark">
+							<SelectGroup>
+								<SelectLabel>Technical Services</SelectLabel>
+								<SelectItem value="website">Website Development</SelectItem>
+								<SelectItem value="app">Application Development</SelectItem>
+								<SelectItem value="db">Database Development</SelectItem>
+							</SelectGroup>
+							<SelectGroup>
+								<SelectLabel>Tutoring Services</SelectLabel>
+								<SelectItem value="math">Math Tutoring</SelectItem>
+								<SelectItem value="coding">Programming Lessons/Tutoring</SelectItem>
+								<SelectItem value="physics">Physics Tutoring</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+					<Input required name="name" placeholder="Name" bind:value={name} />
+					<Input required name="email" type="email" placeholder="Email" bind:value={email} />
+					<input hidden name="date" bind:value={selectedDate} />
+					<input hidden name="startTime" bind:value={selectedStartTime} />
+					{#if selectedService}
+						<input hidden name="service" bind:value={selectedService.label} />
 					{/if}
-					{#each events as event}
-						{#if event.times.length === 0}
-							No available times
-						{/if}
-						{#if selectedDate && isSameDay(parseAbsoluteToLocal(event.start), selectedDate)}
-							Available times for {formatDate(selectedDate.toDate('America/Denver'))}
-							<ToggleGroup
-								class="grid grid-cols-2 sm:grid-cols-3 gap-2"
-								bind:value={selectedStartTime}
-							>
-								{#each event.times as time}
-									<ToggleGroupItem
-										class="border data-[state=on]:border-primary data-[state=on]:bg-background p-8"
-										value={time.time}
-									>
-										<Label class="text-white">
-											{formatTime(time.time).toString()}
-										</Label>
-									</ToggleGroupItem>
-								{/each}
-							</ToggleGroup>
-							<Select bind:selected={selectedService}>
-								<SelectTrigger>
-									<SelectValue placeholder="Select a service" />
-								</SelectTrigger>
-								<SelectContent class="dark">
-									<SelectGroup>
-										<SelectLabel>Technical Services</SelectLabel>
-										<SelectItem value="website">Website Development</SelectItem>
-										<SelectItem value="app">Application Development</SelectItem>
-										<SelectItem value="db">Database Development</SelectItem>
-									</SelectGroup>
-									<SelectGroup>
-										<SelectLabel>Tutoring Services</SelectLabel>
-										<SelectItem value="math">Math Tutoring</SelectItem>
-										<SelectItem value="coding">Programming Lessons/Tutoring</SelectItem>
-										<SelectItem value="physics">Physics Tutoring</SelectItem>
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-							<Input required name="name" placeholder="Name" bind:value={name} />
-							<Input required name="email" type="email" placeholder="Email" bind:value={email} />
-							<input hidden name="date" bind:value={selectedDate} />
-							<input hidden name="startTime" bind:value={selectedStartTime} />
-							{#if selectedService}
-								<input hidden name="service" bind:value={selectedService.label} />
-							{/if}
-							<button
-								disabled={!selectedService || selectedStartTime.length === 0 || !name || !email}
-								class="p-2 rounded-md border bg-primary disabled:bg-secondary">Submit</button
-							>
-						{/if}
-					{/each}
-				</form>
-			</div>
-		</div>
-	{/if}
-</div>
+					<button
+						disabled={!selectedService || selectedStartTime.length === 0 || !name || !email}
+						class="p-2 rounded-md border bg-primary disabled:bg-secondary">Submit</button
+					>
+				{/if}
+			{/each}
+		</form>
+	</div>
+{/if}
