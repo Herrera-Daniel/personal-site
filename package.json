@@ -39,7 +39,7 @@
 		"@sveltejs/adapter-vercel": "^5.4.3",
 		"@types/nodemailer": "^6.4.15",
 		"@types/nodemailer-mailgun-transport": "^1.4.6",
-		"bits-ui": "^0.21.13",
+		"bits-ui": "^0.21.14",
 		"clsx": "^2.1.1",
 		"google-auth-library": "^9.14.1",
 		"googleapis": "^105.0.0",

@@ -8,11 +8,7 @@
 		<ul>
 			<li><a class="hover:text-primary" href="/">Home</a></li>
 			<li><a class="hover:text-primary" href="/about">About</a></li>
-			<li>
-				<a class="hover:text-primary" data-sveltekit-preload-data="hover" href="/schedule"
-					>Schedule</a
-				>
-			</li>
+			<li><a class="hover:text-primary" href="/schedule">Schedule</a></li>
 		</ul>
 	</nav>
 </div>

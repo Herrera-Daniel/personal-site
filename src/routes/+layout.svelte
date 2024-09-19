@@ -10,11 +10,6 @@
 <div class="bg-background text-white min-h-screen dark">
 	<Header />
 	<main class="p-6 w-full flex justify-center sm:p-16">
-		<div class="w-full sm:w-[75%]">
-			<slot />
-		</div>
+		<slot />
 	</main>
 </div>
-
-<style>
-</style>

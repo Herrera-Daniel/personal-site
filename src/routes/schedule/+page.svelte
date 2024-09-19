@@ -62,7 +62,7 @@
 {#if !events}
 	<div class="m-auto">Loading...</div>
 {:else}
-	<div class="h-full">
+	<div class="flex h-full justify-center">
 		<Calendar
 			bind:value={selectedDate}
 			class="rounded-md border shawdow w-fit h-fit items-center"
@@ -97,15 +97,9 @@
 						</SelectTrigger>
 						<SelectContent class="dark">
 							<SelectGroup>
-								<SelectLabel>Technical Services</SelectLabel>
-								<SelectItem value="website">Website Development</SelectItem>
-								<SelectItem value="app">Application Development</SelectItem>
-								<SelectItem value="db">Database Development</SelectItem>
-							</SelectGroup>
-							<SelectGroup>
-								<SelectLabel>Tutoring Services</SelectLabel>
+								<SelectItem value="website">Website/Application Development</SelectItem>
 								<SelectItem value="math">Math Tutoring</SelectItem>
-								<SelectItem value="coding">Programming Lessons/Tutoring</SelectItem>
+								<SelectItem value="coding">Programming Tutoring</SelectItem>
 								<SelectItem value="physics">Physics Tutoring</SelectItem>
 							</SelectGroup>
 						</SelectContent>
