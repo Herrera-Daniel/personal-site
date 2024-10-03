@@ -35,7 +35,6 @@
 	let selectedService: { value: string; label: string } | undefined;
 	let name: string | undefined;
 	let email: string | undefined;
-	let phone: string | undefined;
 
 	onMount(async () => {
 		events = await fetch('/api/schedule').then((res) => res.json());
@@ -110,7 +109,7 @@
 						<input hidden name="service" bind:value={selectedService.label} />
 					{/if}
 					<button
-						disabled={!selectedService || selectedStartTime.length === 0 || !name || (!email || !phone)}
+						disabled={!selectedService || selectedStartTime.length === 0 || !name || !email}
 						class="p-2 rounded-md border bg-primary disabled:bg-secondary"
 					>Submit
 					</button
