@@ -10,7 +10,7 @@
 
 	<h2 class="sm:text-xl font-bold text-primary">What I know.</h2>
 	<p class="sm:text-lg">
-		I have strong fundamental math skill up to Calculus I, including Geometry and Trigonometry. In
+		I have strong fundamental math skills up to Calculus I, including Geometry and Trigonometry. In
 		Physics I would consider myself very knowledgeable up to the end of Classical Mechanics. I would
 		consider my self to be the most knowledgeable about computer science and software engineering.
 		It is my daily job and I program
