@@ -10,9 +10,10 @@
 
 	<h2 class="sm:text-xl font-bold text-primary">What I know.</h2>
 	<p class="sm:text-lg">
-		I'm knowledgeable with math up to Calculus I, including Geometry and Trigonometry. With Physics
-		I'm knowledgeable up to the end of Classical Mechanics. I would consider my self to be the most
-		knowledgeable about computer science and software engineering. It is my daily job and I program
+		I have strong fundamental math skill up to Calculus I, including Geometry and Trigonometry. In
+		Physics I would consider myself very knowledgeable up to the end of Classical Mechanics. I would
+		consider my self to be the most knowledgeable about computer science and software engineering.
+		It is my daily job and I program
 		many hours after work as well.
 	</p>
 	<h2 class="sm:text-xl font-bold text-primary">How I know it.</h2>
@@ -25,9 +26,9 @@
 	</p>
 	<h2 class="sm:text-xl font-bold text-primary">Why choose me?</h2>
 	<p class="sm:text-lg">
-		I believe that knowledge truly is a super power. I believe that with enough time anyone can
+		I believe that knowledge truly is a super power, and that with enough time anyone can
 		learn any subject. I have spent a big portion of my life trying to uncover as much as I can
-		about the world around us and now I am ready to share that excitement and hopefully spark
+		about the world around us and now I feel I'm ready to share that excitement and hopefully spark
 		curiosity in the next generation. I also build pretty good software. Thanks for your
 		consideration.
 	</p>
