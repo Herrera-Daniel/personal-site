@@ -73,7 +73,7 @@ export const GET: RequestHandler = async () => {
 						summary: i.summary,
 						start: i.start.dateTime,
 						end: i.end.dateTime,
-						times: times.filter((t) => !t.reserved)
+						times: times.filter((t) => !t.reserved).map((t) => t.time)
 					};
 				});
 		});

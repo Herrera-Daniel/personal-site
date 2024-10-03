@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { PageData } from './$types';
 
 	import Calendar from '@/components/ui/calendar/calendar.svelte';
 	import Input from '@/components/ui/input/input.svelte';
@@ -9,7 +8,6 @@
 		Select,
 		SelectContent,
 		SelectGroup,
-		SelectLabel,
 		SelectTrigger,
 		SelectValue
 	} from '@/components/ui/select';
@@ -27,9 +25,9 @@
 
 	type CalendarEvent = {
 		summary: string;
-		start: { dateTime: string; timeZone: string };
-		end: { dateTime: string; timeZone: string };
-		status: string;
+		start: string;
+		end: string;
+		times: string[];
 	};
 	let events: CalendarEvent[] | null = null;
 	let selectedDate: DateValue | undefined;
@@ -37,10 +35,10 @@
 	let selectedService: { value: string; label: string } | undefined;
 	let name: string | undefined;
 	let email: string | undefined;
+	let phone: string | undefined;
 
 	onMount(async () => {
-		const calData = await fetch('/api/schedule').then((res) => res.json());
-		events = calData;
+		events = await fetch('/api/schedule').then((res) => res.json());
 	});
 
 	const formatTime = (time: string) => {
@@ -83,10 +81,10 @@
 						{#each event.times as time}
 							<ToggleGroupItem
 								class="border data-[state=on]:border-primary data-[state=on]:bg-background p-8"
-								value={time.time}
+								value={time}
 							>
 								<Label class="text-white">
-									{formatTime(time.time).toString()}
+									{formatTime(time).toString()}
 								</Label>
 							</ToggleGroupItem>
 						{/each}
@@ -112,8 +110,10 @@
 						<input hidden name="service" bind:value={selectedService.label} />
 					{/if}
 					<button
-						disabled={!selectedService || selectedStartTime.length === 0 || !name || !email}
-						class="p-2 rounded-md border bg-primary disabled:bg-secondary">Submit</button
+						disabled={!selectedService || selectedStartTime.length === 0 || !name || (!email || !phone)}
+						class="p-2 rounded-md border bg-primary disabled:bg-secondary"
+					>Submit
+					</button
 					>
 				{/if}
 			{/each}

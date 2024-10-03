@@ -2,6 +2,8 @@
 	<h1 class="text-2xl sm:text-4xl">Schedule</h1>
 	<h2 class="sm:text-xl mb-8">
 		Use this calendar to select a time that works best for you. All times are in Mountain time.
+		<br /><br />
+		I'll confirm your time and details by email as promptly as possible.
 	</h2>
 	<div class="w-full flex-col flex items-center">
 		<div
