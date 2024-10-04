@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-
 	import Calendar from '@/components/ui/calendar/calendar.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import { Label } from '@/components/ui/label';
@@ -67,7 +65,7 @@
 		/>
 	</div>
 	<div class="flex flex-col w-full gap-8 justify-center">
-		<form class="flex flex-col gap-8" method="POST" use:enhance>
+		<form class="flex flex-col gap-8" method="POST">
 			{#if !selectedDate}
 				<div class="flex justify-center text-center w-full">Please select a date</div>
 			{/if}
@@ -110,7 +108,7 @@
 						<input hidden name="service" bind:value={selectedService.label} />
 					{/if}
 					<button
-						disabled={!selectedService || selectedStartTime.length === 0 || !name || (!email || !phone)}
+						disabled={!selectedService || selectedStartTime.length === 0 || !name || !email}
 						class="p-2 rounded-md border bg-primary disabled:bg-secondary"
 					>Submit
 					</button
