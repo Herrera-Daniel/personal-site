@@ -65,7 +65,7 @@ export const GET: RequestHandler = async () => {
 						);
 
 						return {
-							time: hour.toAbsoluteString(),
+							time: hour.toString(),
 							reserved: reserved !== undefined
 						};
 					});

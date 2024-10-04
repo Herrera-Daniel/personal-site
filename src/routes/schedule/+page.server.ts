@@ -1,4 +1,4 @@
-import { DateFormatter, parseAbsoluteToLocal } from '@internationalized/date';
+import { DateFormatter, parseZonedDateTime } from '@internationalized/date';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 
@@ -55,13 +55,12 @@ export const actions = {
 			}
 		);
 
-		const startTime = data.get('startTime')!.toString();
-		const endTime = parseAbsoluteToLocal(data.get('startTime') as string)
+		const timeZone = data.get('startTime')!.toString().slice(26, -1);
+		const startTime = data.get('startTime')!.toString().slice(0, 25);
+		const endTime = parseZonedDateTime(data.get('startTime') as string)
 			.add({ hours: 1 })
-			.toDate()
-			.toISOString();
-
-		console.log(startTime, endTime);
+			.toString()
+			.slice(0, 25);
 
 		google.calendar({ version: 'v3' }).events.insert(
 			{
@@ -70,8 +69,8 @@ export const actions = {
 				sendUpdates: 'all',
 				requestBody: {
 					summary: `${data.get('name')} - ${data.get('service')}`,
-					start: { dateTime: startTime },
-					end: { dateTime: endTime },
+					start: { dateTime: startTime, timeZone },
+					end: { dateTime: endTime, timeZone },
 					status: 'tentative'
 				}
 			},
@@ -91,6 +90,6 @@ export const actions = {
 
 const formatTimeFromString = (time: string) => {
 	return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
-		parseAbsoluteToLocal(time).toDate()
+		parseZonedDateTime(time).toDate()
 	);
 };

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+
 	import Calendar from '@/components/ui/calendar/calendar.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import { Label } from '@/components/ui/label';
@@ -16,7 +18,8 @@
 		DateFormatter,
 		type DateValue,
 		isSameDay,
-		parseAbsoluteToLocal
+		parseAbsoluteToLocal,
+		parseZonedDateTime
 	} from '@internationalized/date';
 	import { onMount } from 'svelte';
 
@@ -39,7 +42,7 @@
 
 	const formatTime = (time: string) => {
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
-			parseAbsoluteToLocal(time).toDate()
+			parseZonedDateTime(time).toDate()
 		);
 	};
 
@@ -63,7 +66,7 @@
 		/>
 	</div>
 	<div class="flex flex-col w-full gap-8 justify-center">
-		<form class="flex flex-col gap-8" method="POST">
+		<form class="flex flex-col gap-8" method="POST" use:enhance>
 			{#if !selectedDate}
 				<div class="flex justify-center text-center w-full">Please select a date</div>
 			{/if}
