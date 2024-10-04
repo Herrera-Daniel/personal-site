@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { applyAction, enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
 	import Calendar from '@/components/ui/calendar/calendar.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import { Label } from '@/components/ui/label';
@@ -17,8 +17,7 @@
 		DateFormatter,
 		type DateValue,
 		isSameDay,
-		parseAbsoluteToLocal,
-		parseZonedDateTime
+		parseAbsoluteToLocal
 	} from '@internationalized/date';
 	import { onMount } from 'svelte';
 	import type { ActionResult } from '@sveltejs/kit';
@@ -44,7 +43,7 @@
 
 	const formatTime = (time: string) => {
 		return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
-			parseZonedDateTime(time).toDate()
+			parseAbsoluteToLocal(time).toDate()
 		);
 	};
 
@@ -92,9 +91,9 @@
 					<form
 						class="flex flex-col gap-8" method="POST" use:enhance={() => {
 			loading = true;
-			return async ({result}) => {
+			return async ({result, update}) => {
 				setSubmitResult(result)
-				await applyAction(result)
+				await update();
 			}
 		}}
 					>
