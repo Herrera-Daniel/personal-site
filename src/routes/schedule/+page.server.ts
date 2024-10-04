@@ -45,9 +45,8 @@ export const actions = {
 				from: 'mailgun@sandboxb377c6e2383f42359367d636f993f6f8.mailgun.org',
 				to: 'daniel.herrera33@proton.me',
 				subject: 'New Meeting Request',
-				text: `Date: ${data.get('date')}\nTime: ${formatTimeFromString(
-					data.get('startTime') as string
-				)}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nService: ${data.get('service')}`
+				text: `Date: ${data.get('date')}\nTime: ${formatTimeFromString(data.get('startTime') as string)}\n
+				Name: ${data.get('name')}\nEmail: ${data.get('email')}\nService: ${data.get('service')}`
 			},
 			(err) => {
 				if (err) {
