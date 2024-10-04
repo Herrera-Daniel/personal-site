@@ -1,4 +1,4 @@
-import { DateFormatter, parseAbsoluteToLocal } from '@internationalized/date';
+import { DateFormatter, parseZonedDateTime } from '@internationalized/date';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 
@@ -56,7 +56,7 @@ export const actions = {
 
 		const timeZone = data.get('startTime')!.toString().slice(26, -1);
 		const startTime = data.get('startTime')!.toString().slice(0, 25);
-		const endTime = parseAbsoluteToLocal(data.get('startTime') as string)
+		const endTime = parseZonedDateTime(data.get('startTime') as string)
 			.add({ hours: 1 })
 			.toString()
 			.slice(0, 25);
@@ -89,6 +89,6 @@ export const actions = {
 
 const formatTimeFromString = (time: string) => {
 	return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
-		parseAbsoluteToLocal(time).toDate()
+		parseZonedDateTime(time).toDate()
 	);
 };

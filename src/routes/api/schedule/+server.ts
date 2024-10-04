@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 import type { RequestHandler } from './$types';
-import { parseAbsoluteToLocal } from '@internationalized/date';
+import { getLocalTimeZone, isSameDay, parseAbsoluteToLocal, today } from '@internationalized/date';
 import { CALENDAR_CLIENT_EMAIL, CALENDAR_PRIVATE_KEY } from '$env/static/private';
 import { JWT } from 'google-auth-library';
 import { json } from '@sveltejs/kit';
@@ -35,7 +35,7 @@ export const GET: RequestHandler = async () => {
 			showDeleted: false,
 			singleEvents: true,
 			maxResults: 60,
-			timeMin: new Date().toISOString(),
+			timeMin: today(getLocalTimeZone()).toDate('America/Denver').toISOString(),
 			orderBy: 'startTime'
 		})
 		.then((res) => res.data)
@@ -46,14 +46,18 @@ export const GET: RequestHandler = async () => {
 			return events
 				.filter((i) => i.summary === 'Free')
 				.map((i) => {
-					const startTime = new Date(i.start.dateTime);
-					const endTime = new Date(i.end.dateTime);
-					console.log(startTime.toString());
-					const hours = endTime.getHours() - startTime.getHours();
+					const startTime = parseAbsoluteToLocal(i.start.dateTime);
+					const endTime = parseAbsoluteToLocal(i.end.dateTime);
+					let hours = endTime.toDate().getHours() - startTime.toDate().getHours();
+					if (hours < 0) {
+						hours = hours + 24;
+					}
+					if (hours > 24) {
+						hours = hours - 24;
+					}
 					const otherEventsOnDay = events.filter(
 						(se) =>
-							startTime.toISOString() === new Date(se.start.dateTime).toISOString() &&
-							se.summary !== 'Free'
+							isSameDay(startTime, parseAbsoluteToLocal(se.start.dateTime)) && se.summary !== 'Free'
 					);
 
 					const times = [...Array(hours).keys()].map((t) => {
@@ -61,9 +65,9 @@ export const GET: RequestHandler = async () => {
 						const reserved = otherEventsOnDay.find(
 							(se) => parseAbsoluteToLocal(se.start.dateTime).toString() === hour.toString()
 						);
-						console.log('time', new Date(hour.toAbsoluteString()).toISOString());
+
 						return {
-							time: new Date(hour.toAbsoluteString()).toISOString(),
+							time: hour.toString(),
 							reserved: reserved !== undefined
 						};
 					});
