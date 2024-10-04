@@ -39,6 +39,7 @@ export const GET: RequestHandler = async () => {
 		})
 		.then((res) => res.data)
 		.then((data) => {
+			//@ts-expect-error I know what this data is shaped like
 			const events = data.items as CalendarEvent[];
 
 			return events
