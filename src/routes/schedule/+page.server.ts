@@ -1,4 +1,4 @@
-import { DateFormatter, parseAbsoluteToLocal } from '@internationalized/date';
+import { DateFormatter, parseZonedDateTime } from '@internationalized/date';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 
@@ -8,7 +8,6 @@ import {
 	EMAIL_API_KEY,
 	EMAIL_DOMAIN
 } from '$env/static/private';
-import { redirect } from '@sveltejs/kit';
 import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
 
@@ -45,7 +44,7 @@ export const actions = {
 				from: 'mailgun@sandboxb377c6e2383f42359367d636f993f6f8.mailgun.org',
 				to: 'daniel.herrera33@proton.me',
 				subject: 'New Meeting Request',
-				text: `Date: ${data.get('date')}\nTime: ${formatTimeFromString(data.get('startTime') as string)}\n
+				text: `Date: ${data.get('date')}\nTime: ${formatTimeFromString(data.get('startTime')!.toString())}\n
 				Name: ${data.get('name')}\nEmail: ${data.get('email')}\nService: ${data.get('service')}`
 			},
 			(err) => {
@@ -55,23 +54,24 @@ export const actions = {
 			}
 		);
 
-		const startTime = data.get('startTime')!.toString();
-		const endTime = parseAbsoluteToLocal(data.get('startTime') as string)
+		const timeZone = data.get('startTime')!.toString().slice(26, -1);
+		const startTime = data.get('startTime')!.toString().slice(0, 25);
+		const endTime = parseZonedDateTime(data.get('startTime') as string)
 			.add({ hours: 1 })
-			.toDate()
-			.toISOString();
-
-		console.log(startTime, endTime);
+			.toString()
+			.slice(0, 25);
+		console.log(timeZone, data.get('startTime'));
 
 		google.calendar({ version: 'v3' }).events.insert(
 			{
+				//@ts-expect-error not sure
 				auth: calendarAuth,
 				calendarId: CALENDAR_ID,
 				sendUpdates: 'all',
 				requestBody: {
 					summary: `${data.get('name')} - ${data.get('service')}`,
-					start: { dateTime: startTime },
-					end: { dateTime: endTime },
+					start: { dateTime: startTime, timeZone },
+					end: { dateTime: endTime, timeZone },
 					status: 'tentative'
 				}
 			},
@@ -83,14 +83,12 @@ export const actions = {
 		);
 		if (error) {
 			alert('Something went wrong, please try again.');
-		} else {
-			redirect(303, '/schedule/reserved');
 		}
 	}
 };
 
 const formatTimeFromString = (time: string) => {
 	return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
-		parseAbsoluteToLocal(time).toDate()
+		parseZonedDateTime(time).toDate()
 	);
 };
