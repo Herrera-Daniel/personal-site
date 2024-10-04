@@ -29,7 +29,6 @@ export const GET: RequestHandler = async () => {
 	const items = await google
 		.calendar({ version: 'v3' })
 		.events.list({
-			//@ts-expect-error Idk why
 			auth: calendarAuth,
 			calendarId: CALENDAR_ID,
 			showDeleted: false,
