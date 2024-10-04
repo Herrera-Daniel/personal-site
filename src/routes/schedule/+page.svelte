@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import Calendar from '@/components/ui/calendar/calendar.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import { Label } from '@/components/ui/label';
@@ -92,8 +92,9 @@
 					<form
 						class="flex flex-col gap-8" method="POST" use:enhance={() => {
 			loading = true;
-			return ({result}) => {
+			return async ({result}) => {
 				setSubmitResult(result)
+				await applyAction(result)
 			}
 		}}
 					>
