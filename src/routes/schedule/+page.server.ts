@@ -39,7 +39,7 @@ export const actions = {
 
 		const data = await request.formData();
 
-		await nodemailerMailgun.sendMail(
+		nodemailerMailgun.sendMail(
 			{
 				from: 'mailgun@sandboxb377c6e2383f42359367d636f993f6f8.mailgun.org',
 				to: 'daniel.herrera33@proton.me',
@@ -62,7 +62,7 @@ export const actions = {
 			.slice(0, 25);
 		console.log(timeZone, data.get('startTime'));
 
-		await google.calendar({ version: 'v3' }).events.insert(
+		google.calendar({ version: 'v3' }).events.insert(
 			{
 				//@ts-expect-error not sure
 				auth: calendarAuth,
