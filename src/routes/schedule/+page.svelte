@@ -21,6 +21,7 @@
 	} from '@internationalized/date';
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 
 	type CalendarEvent = {
 		summary: string;
@@ -34,7 +35,7 @@
 	let selectedService: { value: string; label: string } | undefined;
 	let name: string | undefined;
 	let email: string | undefined;
-	let phone: string | undefined;
+	let loading: boolean = false;
 
 	onMount(async () => {
 		events = await fetch('/api/schedule').then((res) => res.json());
@@ -49,6 +50,7 @@
 	const formatDate = (date: Date) => {
 		return new DateFormatter('en-US').format(date);
 	};
+
 </script>
 
 <svelte:head>
@@ -67,7 +69,7 @@
 		<div
 			class="flex flex-col md:flex-row min-h-[26rem] sm:min-w-[640px] max-w-4xl border w-full px-2 py-4 sm:p-12 rounded-md gap-12 text-center"
 		>
-			{#if !events}
+			{#if !events || loading}
 				<div class="m-auto">Loading...</div>
 			{:else}
 				<div class="flex h-full justify-center">
@@ -78,14 +80,20 @@
 				</div>
 				<div class="flex flex-col w-full gap-8 justify-center">
 					<form
-						class="flex flex-col gap-8" method="POST" use:enhance={({ formElement }) => {
-
-		return async ({update}) => {
-			formElement.reset();
-			formElement.replaceWith("Thanks for reserving a meeting time, I'll get back to you as soon as I can.");
-			update();
-		};
-	}}
+						class="flex flex-col gap-8"
+						method="POST"
+						use:enhance={({ formElement }) => {
+							loading = true;
+							invalidateAll();
+							return async ({ update }) => {
+								update();
+								formElement.reset();
+								formElement.replaceWith(
+									"Thanks for reserving a meeting time, I'll get back to you as soon as I can."
+								);
+								loading = false;
+							};
+						}}
 					>
 						{#if !selectedDate}
 							<div class="flex justify-center text-center w-full">Please select a date</div>
@@ -139,11 +147,13 @@
 											<input hidden name="service" bind:value={selectedService.label} />
 										{/if}
 										<button
-											disabled={!selectedService || selectedStartTime.length === 0 || !name || !email}
+											disabled={!selectedService ||
+												selectedStartTime.length === 0 ||
+												!name ||
+												!email}
 											class="p-2 rounded-md border bg-primary disabled:bg-secondary"
-										>Submit
-										</button
-										>
+											>Submit
+										</button>
 									{/if}
 								{/if}
 							{/each}
@@ -154,4 +164,3 @@
 		</div>
 	</div>
 </div>
-
