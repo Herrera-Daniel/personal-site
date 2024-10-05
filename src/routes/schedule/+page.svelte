@@ -78,15 +78,13 @@
 				</div>
 				<div class="flex flex-col w-full gap-8 justify-center">
 					<form
-						class="flex flex-col gap-8" method="POST" use:enhance={({ formElement }) => {
-							loading = true;
-
-		return async ({update}) => {
-			await update();
-			loading = false;
-			formElement.replaceWith("Thanks for reserving a meeting time, I'll get back to you as soon as I can.");
-		};
-	}}
+						class="flex flex-col gap-8"
+						method="POST"
+						use:enhance={({ formElement }) => {
+							formElement.replaceWith(
+									"Thanks for reserving a meeting time, I'll get back to you as soon as I can."
+								);
+						}}
 					>
 						{#if !selectedDate}
 							<div class="flex justify-center text-center w-full">Please select a date</div>
@@ -140,11 +138,13 @@
 											<input hidden name="service" bind:value={selectedService.label} />
 										{/if}
 										<button
-											disabled={!selectedService || selectedStartTime.length === 0 || !name || !email}
+											disabled={!selectedService ||
+												selectedStartTime.length === 0 ||
+												!name ||
+												!email}
 											class="p-2 rounded-md border bg-primary disabled:bg-secondary"
-										>Submit
-										</button
-										>
+											>Submit
+										</button>
 									{/if}
 								{/if}
 							{/each}
@@ -155,4 +155,3 @@
 		</div>
 	</div>
 </div>
-
