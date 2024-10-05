@@ -20,7 +20,7 @@
 		parseZonedDateTime
 	} from '@internationalized/date';
 	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 
 	type CalendarEvent = {
 		summary: string;
@@ -80,10 +80,10 @@
 					<form
 						class="flex flex-col gap-8" method="POST" use:enhance={({ formElement }) => {
 
-		return async ({update}) => {
+		return async ({result, update}) => {
 			formElement.reset();
 			formElement.replaceWith("Thanks for reserving a meeting time, I'll get back to you as soon as I can.");
-			update();
+			await applyAction(result)
 		};
 	}}
 					>
