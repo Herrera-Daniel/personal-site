@@ -87,7 +87,9 @@ export const actions = {
 };
 
 const formatTimeFromString = (time: string) => {
-	return new DateFormatter('en-US', { hour: 'numeric', hour12: true }).format(
-		parseZonedDateTime(time).toDate()
-	);
+	return new DateFormatter('en-US', {
+		hour: 'numeric',
+		hour12: true,
+		timeZone: 'America/Denver'
+	}).format(parseZonedDateTime(time).toDate());
 };
