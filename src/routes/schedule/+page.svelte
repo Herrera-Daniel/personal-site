@@ -82,10 +82,9 @@
 							loading = true;
 
 		return async ({update}) => {
-			formElement.reset();
-			formElement.replaceWith("Thanks for reserving a meeting time, I'll get back to you as soon as I can.");
+			await update();
 			loading = false;
-			update();
+			formElement.replaceWith("Thanks for reserving a meeting time, I'll get back to you as soon as I can.");
 		};
 	}}
 					>

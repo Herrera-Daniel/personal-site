@@ -81,9 +81,7 @@ export const actions = {
 				}
 			}
 		);
-		if (error) {
-			alert('Something went wrong, please try again.');
-		}
+		return { result: true };
 	}
 };
 
