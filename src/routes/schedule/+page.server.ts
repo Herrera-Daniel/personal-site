@@ -8,7 +8,6 @@ import {
 	EMAIL_API_KEY,
 	EMAIL_DOMAIN
 } from '$env/static/private';
-import { redirect } from '@sveltejs/kit';
 import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
 
@@ -84,8 +83,6 @@ export const actions = {
 		);
 		if (error) {
 			alert('Something went wrong, please try again.');
-		} else {
-			redirect(303, '/schedule/reserved');
 		}
 	}
 };
