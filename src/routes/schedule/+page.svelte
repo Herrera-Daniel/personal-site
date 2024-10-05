@@ -34,7 +34,7 @@
 	let selectedService: { value: string; label: string } | undefined;
 	let name: string | undefined;
 	let email: string | undefined;
-	let phone: string | undefined;
+	let loading: boolean = false;
 
 	onMount(async () => {
 		events = await fetch('/api/schedule').then((res) => res.json());
@@ -67,7 +67,7 @@
 		<div
 			class="flex flex-col md:flex-row min-h-[26rem] sm:min-w-[640px] max-w-4xl border w-full px-2 py-4 sm:p-12 rounded-md gap-12 text-center"
 		>
-			{#if !events}
+			{#if !events || loading}
 				<div class="m-auto">Loading...</div>
 			{:else}
 				<div class="flex h-full justify-center">
@@ -79,10 +79,12 @@
 				<div class="flex flex-col w-full gap-8 justify-center">
 					<form
 						class="flex flex-col gap-8" method="POST" use:enhance={({ formElement }) => {
+							loading = true;
 
 		return async ({update}) => {
 			formElement.reset();
 			formElement.replaceWith("Thanks for reserving a meeting time, I'll get back to you as soon as I can.");
+			loading = false;
 			update();
 		};
 	}}

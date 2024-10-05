@@ -29,6 +29,7 @@ export const GET: RequestHandler = async () => {
 	const items = await google
 		.calendar({ version: 'v3' })
 		.events.list({
+			//@ts-expect-error idk
 			auth: calendarAuth,
 			calendarId: CALENDAR_ID,
 			showDeleted: false,
@@ -39,6 +40,7 @@ export const GET: RequestHandler = async () => {
 		})
 		.then((res) => res.data)
 		.then((data) => {
+			//@ts-expect-error I know what this data is
 			const events = data.items as CalendarEvent[];
 
 			return events

@@ -64,6 +64,7 @@ export const actions = {
 
 		google.calendar({ version: 'v3' }).events.insert(
 			{
+				//@ts-expect-error idk
 				auth: calendarAuth,
 				calendarId: CALENDAR_ID,
 				sendUpdates: 'all',
