@@ -20,7 +20,6 @@
 		parseZonedDateTime
 	} from '@internationalized/date';
 	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
 
 	type CalendarEvent = {
 		summary: string;
@@ -29,14 +28,16 @@
 		times: string[];
 	};
 	let events: CalendarEvent[] | null = null;
-	let selectedDate: DateValue | undefined;
+	let selectedDate: DateValue | null = null;
 	let selectedStartTime: string = '';
 	let selectedService: { value: string; label: string } | undefined;
 	let name: string | undefined;
 	let email: string | undefined;
-	let loading: boolean = false;
+	let loading = false;
+	let submitted = false;
 
 	onMount(async () => {
+		submitted = false
 		events = await fetch('/api/schedule').then((res) => res.json());
 	});
 
@@ -49,6 +50,19 @@
 	const formatDate = (date: Date) => {
 		return new DateFormatter('en-US').format(date);
 	};
+
+	async function handleSubmit(event: { currentTarget: EventTarget & HTMLFormElement }) {
+		loading = true;
+		const data = new FormData(event.currentTarget);
+
+		await fetch('/api/schedule', {
+			method: 'POST',
+			body: data,
+		});
+
+		loading = false;
+		submitted = true;
+	}
 </script>
 
 <svelte:head>
@@ -60,8 +74,6 @@
 	<h1 class="text-2xl sm:text-4xl">Schedule</h1>
 	<h2 class="sm:text-xl mb-8">
 		Use this calendar to select a time that works best for you. All times are in Mountain time.
-		<br /><br />
-		I'll confirm your time and details by email as promptly as possible.
 	</h2>
 	<div class="w-full flex-col flex items-center">
 		<div
@@ -69,6 +81,8 @@
 		>
 			{#if !events || loading}
 				<div class="m-auto">Loading...</div>
+			{:else if submitted}
+				<div class="m-auto">Thank you for your interest, I will confirm as promptly as possible</div>
 			{:else}
 				<div class="flex h-full justify-center">
 					<Calendar
@@ -79,12 +93,7 @@
 				<div class="flex flex-col w-full gap-8 justify-center">
 					<form
 						class="flex flex-col gap-8"
-						method="POST"
-						use:enhance={({ formElement }) => {
-							formElement.replaceWith(
-									"Thanks for reserving a meeting time, I'll get back to you as soon as I can."
-								);
-						}}
+						on:submit|preventDefault={handleSubmit}
 					>
 						{#if !selectedDate}
 							<div class="flex justify-center text-center w-full">Please select a date</div>
@@ -143,7 +152,7 @@
 												!name ||
 												!email}
 											class="p-2 rounded-md border bg-primary disabled:bg-secondary"
-											>Submit
+										>Submit
 										</button>
 									{/if}
 								{/if}

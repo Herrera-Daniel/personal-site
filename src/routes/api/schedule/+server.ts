@@ -1,9 +1,23 @@
 import { google } from 'googleapis';
 import type { RequestHandler } from './$types';
-import { getLocalTimeZone, isSameDay, parseAbsoluteToLocal, today } from '@internationalized/date';
-import { CALENDAR_CLIENT_EMAIL, CALENDAR_PRIVATE_KEY } from '$env/static/private';
+import {
+	DateFormatter,
+	getLocalTimeZone,
+	isSameDay,
+	parseAbsoluteToLocal,
+	parseZonedDateTime,
+	today
+} from '@internationalized/date';
+import {
+	CALENDAR_CLIENT_EMAIL,
+	CALENDAR_PRIVATE_KEY,
+	EMAIL_API_KEY,
+	EMAIL_DOMAIN
+} from '$env/static/private';
 import { JWT } from 'google-auth-library';
 import { json } from '@sveltejs/kit';
+import nodemailer from 'nodemailer';
+import mg from 'nodemailer-mailgun-transport';
 
 const SCOPES = [
 	'https://www.googleapis.com/auth/calendar',
@@ -81,4 +95,56 @@ export const GET: RequestHandler = async () => {
 		});
 
 	return json(items);
+};
+
+const mailgunAuth = {
+	auth: {
+		api_key: EMAIL_API_KEY,
+		domain: EMAIL_DOMAIN
+	}
+};
+
+const nodemailerMailgun = nodemailer.createTransport(mg(mailgunAuth));
+
+export const POST: RequestHandler = async ({ request }) => {
+	const data = await request.formData();
+
+	nodemailerMailgun.sendMail({
+		from: 'mailgun@sandboxb377c6e2383f42359367d636f993f6f8.mailgun.org',
+		to: 'daniel.herrera33@proton.me',
+		subject: 'New Meeting Request',
+		text: `Date: ${data.get('date')}\nTime: ${formatTimeFromString(
+			data.get('startTime') as string
+		)}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nService: ${data.get('service')}`
+	});
+
+	const timeZone = data.get('startTime')!.toString().slice(26, -1);
+	const startTime = data.get('startTime')!.toString().slice(0, 25);
+	const endTime = parseZonedDateTime(data.get('startTime') as string)
+		.add({ hours: 1 })
+		.toString()
+		.slice(0, 25);
+
+	google.calendar({ version: 'v3' }).events.insert({
+		//@ts-expect-error idk
+		auth: calendarAuth,
+		calendarId: CALENDAR_ID,
+		sendNotifications: true,
+		sendUpdates: 'all',
+		requestBody: {
+			summary: `${data.get('name')} - ${data.get('service')}`,
+			start: { dateTime: startTime, timeZone },
+			end: { dateTime: endTime, timeZone },
+			status: 'tentative'
+		}
+	});
+	return json(null);
+};
+
+const formatTimeFromString = (time: string) => {
+	return new DateFormatter('en-US', {
+		hour: 'numeric',
+		hour12: true,
+		timeZone: 'America/Denver'
+	}).format(parseZonedDateTime(time).toDate());
 };
