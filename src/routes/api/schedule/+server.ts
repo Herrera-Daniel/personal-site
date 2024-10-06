@@ -43,7 +43,6 @@ export const GET: RequestHandler = async () => {
 	const items = await google
 		.calendar({ version: 'v3' })
 		.events.list({
-			//@ts-expect-error idk
 			auth: calendarAuth,
 			calendarId: CALENDAR_ID,
 			showDeleted: false,
@@ -54,7 +53,6 @@ export const GET: RequestHandler = async () => {
 		})
 		.then((res) => res.data)
 		.then((data) => {
-			//@ts-expect-error I know what this data is
 			const events = data.items as CalendarEvent[];
 
 			return events
@@ -109,7 +107,7 @@ const nodemailerMailgun = nodemailer.createTransport(mg(mailgunAuth));
 export const POST: RequestHandler = async ({ request }) => {
 	const data = await request.formData();
 
-	nodemailerMailgun.sendMail({
+	await nodemailerMailgun.sendMail({
 		from: 'mailgun@sandboxb377c6e2383f42359367d636f993f6f8.mailgun.org',
 		to: 'daniel.herrera33@proton.me',
 		subject: 'New Meeting Request',
@@ -125,8 +123,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toString()
 		.slice(0, 25);
 
-	google.calendar({ version: 'v3' }).events.insert({
-		//@ts-expect-error idk
+	await google.calendar({ version: 'v3' }).events.insert({
 		auth: calendarAuth,
 		calendarId: CALENDAR_ID,
 		sendNotifications: true,
